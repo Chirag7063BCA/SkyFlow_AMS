@@ -14,8 +14,9 @@
   --color-white: #ffffff;
 }
 
-/* Include Global Navbar Component Stylesheet */
+/* Include Global Navbar & Footer Component Stylesheets */
 @import "../globalcomp/navbar.css";
+@import "../globalcomp/footer.css";
 
 /* Universal Reset */
 * {
