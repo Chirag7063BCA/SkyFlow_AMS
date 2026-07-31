@@ -1,0 +1,188 @@
+/* ==========================================
+   Global Navbar Stylesheet - SkyFlow
+   (Floating Pill "Cutting" Glass Navbar)
+   ========================================== */
+
+/* Main Navigation Bar - Floating Pill Glassmorphism */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  max-width: 1200px;
+  margin: 1.2rem auto;
+  padding: 0.75rem 2.2rem;
+  background: rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  position: sticky;
+  top: 1.2rem;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* SkyFlow Logo */
+.navbar-logo {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--color-white, #ffffff);
+  text-decoration: none;
+  letter-spacing: -0.3px;
+}
+
+.navbar-logo span {
+  color: var(--color-sky-blue, #7BBDE8);
+}
+
+/* Pure CSS Checkbox Hack (Hidden) */
+.nav-toggle-checkbox {
+  display: none;
+}
+
+/* Navigation Links List */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding-bottom: 0.25rem;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-white, #ffffff);
+}
+
+/* Active Nav Link (Home) */
+.nav-link.active {
+  color: var(--color-white, #ffffff);
+  font-weight: 700;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2.5px;
+  background-color: var(--color-sky-blue, #7BBDE8);
+  border-radius: 2px;
+}
+
+/* Right Navigation Action Buttons */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.btn-signin {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.6rem;
+  transition: color 0.2s ease;
+}
+
+.btn-signin:hover {
+  color: var(--color-white, #ffffff);
+}
+
+/* Pill Curved Action Button */
+.btn-get-started {
+  text-decoration: none;
+  background-color: var(--color-sky-blue, #7BBDE8);
+  color: var(--bg-dark, #001D39);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 0.65rem 1.5rem;
+  border-radius: 30px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(123, 189, 232, 0.35);
+}
+
+.btn-get-started:hover {
+  background-color: var(--color-white, #ffffff);
+  color: var(--bg-dark, #001D39);
+  transform: translateY(-1px);
+}
+
+/* Mobile Toggle Hamburger Icon */
+.mobile-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 26px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mobile-toggle span {
+  width: 100%;
+  height: 2.5px;
+  background-color: var(--color-white, #ffffff);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Responsive Layout for Tablets and Mobile Screens */
+@media (max-width: 900px) {
+  .navbar {
+    width: 94%;
+    margin: 0.8rem auto;
+    padding: 0.75rem 1.4rem;
+    border-radius: 30px;
+  }
+
+  .mobile-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 100%;
+    background: rgba(0, 29, 57, 0.95);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.5rem 2rem;
+    gap: 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 24px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    display: none;
+  }
+
+  /* Pure CSS Toggle: Show menu when checkbox is checked or .active class is applied */
+  .nav-toggle-checkbox:checked ~ .nav-menu,
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 0.8rem;
+  }
+}
