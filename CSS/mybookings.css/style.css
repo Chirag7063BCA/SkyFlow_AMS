@@ -1,0 +1,401 @@
+/* Use CSS variables for consistent colors and simple theme management */
+:root {
+    /* Brand Colors */
+    --primary-blue: #0056b3;
+    --primary-hover: #004494;
+    --accent-blue: #e6f0fa;
+    --white: #ffffff;
+
+    /* Text and Backgrounds */
+    --text-main: #333333;
+    --text-muted: #666666;
+    --bg-light: #f4f7f9;
+    --border-color: #e0e5eb;
+
+    /* Status Colors */
+    --status-confirmed: #28a745;
+    --status-confirmed-bg: #e6f6ea;
+
+    --status-completed: #17a2b8;
+    --status-completed-bg: #e3f5f8;
+
+    --status-cancelled: #dc3545;
+    --status-cancelled-bg: #fbeae9;
+
+    /* Shadows and Borders */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.15);
+
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --transition: all 0.3s ease;
+}
+
+/* Basic Reset */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url('https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+}
+
+/* Main Container */
+.bookings-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+/* Header Section */
+.page-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.page-header h1 {
+    font-size: 28px;
+    color: var(--primary-blue);
+    margin: 0 0 10px 0;
+}
+
+.page-header p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 16px;
+}
+
+/* Search Box */
+.search-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    padding: 10px 18px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.search-box:focus-within {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px var(--accent-blue);
+}
+
+.search-icon {
+    font-size: 18px;
+    margin-right: 12px;
+    color: var(--text-muted);
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+    color: var(--text-main);
+    background: transparent;
+}
+
+.search-box input::placeholder {
+    color: #a0a0a0;
+}
+
+/* Filter Chips */
+.filter-section {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 35px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background-color: var(--white);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+.filter-btn:hover {
+    background-color: var(--accent-blue);
+    color: var(--primary-blue);
+    border-color: var(--accent-blue);
+}
+
+.filter-btn.active {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border-color: var(--primary-blue);
+}
+
+/* Booking List & Cards */
+.booking-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.booking-card {
+    background-color: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.booking-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+}
+
+/* Card Header */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px dashed var(--border-color);
+    background-color: #fafbfc;
+}
+
+.booking-id {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-confirmed {
+    background-color: var(--status-confirmed-bg);
+    color: var(--status-confirmed);
+}
+
+.status-completed {
+    background-color: var(--status-completed-bg);
+    color: var(--status-completed);
+}
+
+.status-cancelled {
+    background-color: var(--status-cancelled-bg);
+    color: var(--status-cancelled);
+}
+
+/* Card Body */
+.card-body {
+    padding: 24px;
+}
+
+.flight-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.airline-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary-blue);
+}
+
+.route {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.route .city {
+    text-align: center;
+}
+
+.route .city h3 {
+    margin: 0;
+    font-size: 26px;
+    color: var(--text-main);
+}
+
+.route .city p {
+    margin: 4px 0 0 0;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.flight-icon {
+    font-size: 24px;
+    color: var(--primary-blue);
+    opacity: 0.6;
+}
+
+/* Flight Details Info (Using Grid) */
+.flight-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    background-color: var(--bg-light);
+    padding: 18px;
+    border-radius: var(--radius-md);
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-item .label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.detail-item .value {
+    font-size: 14px;
+    color: var(--text-main);
+}
+
+.detail-item .price {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--primary-blue);
+}
+
+/* Card Footer with Action Buttons */
+.card-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 24px;
+    background-color: #fafbfc;
+    border-top: 1px solid var(--border-color);
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    background-color: var(--white);
+    color: var(--primary-blue);
+    border: 1px solid var(--primary-blue);
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+.action-btn:hover {
+    background-color: var(--primary-blue);
+    color: var(--white);
+}
+
+.btn-danger {
+    color: var(--status-cancelled);
+    border-color: var(--status-cancelled);
+}
+
+.btn-danger:hover {
+    background-color: var(--status-cancelled);
+    color: var(--white);
+    border-color: var(--status-cancelled);
+}
+
+/* Empty State Section */
+.empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    margin-top: 40px;
+    border: 1px solid var(--border-color);
+}
+
+.empty-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+.empty-state p {
+    color: var(--text-muted);
+    font-size: 18px;
+    margin-bottom: 24px;
+}
+
+.primary-btn {
+    background-color: var(--primary-blue);
+    color: var(--white);
+    border: none;
+    padding: 12px 28px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: var(--transition);
+}
+
+.primary-btn:hover {
+    background-color: var(--primary-hover);
+    box-shadow: var(--shadow-md);
+}
+
+/* Responsive Design Adjustments */
+@media (max-width: 650px) {
+    .flight-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .route {
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 15px;
+    }
+
+    .card-footer {
+        justify-content: center;
+    }
+
+    .action-btn {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .bookings-container {
+        padding: 10px;
+    }
+
+    .page-header h1 {
+        font-size: 24px;
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
