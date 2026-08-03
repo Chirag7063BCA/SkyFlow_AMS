@@ -3,70 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SkyFlow - Airline Management System</title>
+  <title>SkyFlow – Airline Management System</title>
 
-  <!-- Global Stylesheets -->
-  <link rel="stylesheet" href="../../CSS/User/style.css">
+  <!-- Global reset + tokens -->
+  <style>
+    :root {
+      --bg-dark: #001d39;
+      --white:   #ffffff;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg-dark);
+      color: #bdd8e9;
+      overflow-x: hidden;
+    }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+  </style>
+
+  <!-- Component stylesheets -->
   <link rel="stylesheet" href="../../CSS/globalcomp/navbar.css">
+  <link rel="stylesheet" href="../../CSS/Landingcomp/hero.css">
+  <link rel="stylesheet" href="../../CSS/Landingcomp/flights.css">
   <link rel="stylesheet" href="../../CSS/globalcomp/footer.css">
 </head>
 <body>
-  <!-- Dynamic Component Containers -->
-  <div id="navbar-container"></div>
-  <main id="app-content"></main>
-  <div id="footer-container"></div>
 
-  <!-- Component Loader Script -->
+  <!-- Component placeholders — filled by loadComponent() below -->
+  <div id="navbar-root"></div>
+  <main>
+    <div id="hero-root"></div>
+    <div id="flights-root"></div>
+  </main>
+  <div id="footer-root"></div>
+
   <script>
-    async function loadComponent(url, containerId) {
-      try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`Failed to load ${url}`);
-        const html = await response.text();
-        document.getElementById(containerId).innerHTML = html;
-      } catch (error) {
-        console.error('Error loading component:', error);
-      }
+    // Load an HTML file and inject it into the target element
+    async function loadComponent(file, targetId) {
+      const res  = await fetch(file, { cache: 'no-store' });
+      const html = await res.text();
+      document.getElementById(targetId).innerHTML = html;
     }
 
-    async function initApp() {
-      if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-      }
+    // Load all components, then start the app
+    async function init() {
+      await loadComponent('globalcomp/navbar.html',  'navbar-root');
+      await loadComponent('Landingcomp/hero.html',    'hero-root');
+      await loadComponent('Landingcomp/flights.html', 'flights-root');
+      await loadComponent('globalcomp/footer.html',  'footer-root');
 
-      // Load global components
-      await loadComponent('globalcomp/navbar.html', 'navbar-container');
-      await loadComponent('globalcomp/footer.html', 'footer-container');
-
-      // Setup routing for main content
-      async function handleRoute() {
-        const hash = window.location.hash ? window.location.hash.substring(1) : 'hero';
-        
-        // Define route mappings
-        const routes = {
-          'hero': 'Landingcomp/hero.html',
-          'book': 'Landingcomp/hero.html',
-          'manage': 'Landingcomp/hero.html',
-          'flights': 'Landingcomp/hero.html',
-          'track-flight': 'Landingcomp/hero.html',
-          'offers': 'Landingcomp/hero.html',
-          'help': 'Landingcomp/hero.html'
-        };
-
-        const pageUrl = routes[hash] || routes.hero;
-        await loadComponent(pageUrl, 'app-content');
-        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-      }
-
-      // Initial route load
-      await handleRoute();
-
-      // Listen for hash changes
-      window.addEventListener('hashchange', handleRoute);
+      // Now that the DOM is ready, run the flights script
+      const script = document.createElement('script');
+      script.src = '../../Javascript/User/flights.js';
+      document.body.appendChild(script);
     }
 
-    // Initialize when DOM is ready
-    window.addEventListener('DOMContentLoaded', initApp);
+    init();
   </script>
+
 </body>
 </html>
