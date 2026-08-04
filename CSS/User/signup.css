@@ -1,0 +1,423 @@
+/* ==========================================
+   SkyFlow Auth Drawer Stylesheet (Light Theme)
+   File: CSS/User/signup.css
+   ========================================== */
+
+/* Drawer Container Wrapper */
+.auth-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+}
+
+.auth-drawer.active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Light Glassmorphic Overlay Backdrop */
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 10;
+  cursor: pointer;
+}
+
+/* Light Slide-out Panel from Right */
+.auth-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 440px;
+  height: 100%;
+  height: 100vh;
+  height: 100svh;
+  background-color: #FFFFFF;
+  border-left: 1px solid #E2E8F0;
+  box-shadow: -15px 0 45px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  z-index: 20; /* High Z-index above backdrop overlay */
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #0F2640;
+  pointer-events: auto;
+}
+
+.auth-drawer.active .auth-panel {
+  transform: translateX(0);
+}
+
+/* Sticky Header & Navigation Tabs at Top */
+.auth-top-sticky {
+  position: relative;
+  background: #FFFFFF;
+  z-index: 30;
+  padding: 1.25rem 1.5rem 0.6rem;
+  border-bottom: 1px solid #F1F5F9;
+  flex-shrink: 0; /* Prevents header from shrinking */
+}
+
+/* Auth Header */
+.auth-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0F2640;
+}
+
+.auth-logo-icon {
+  color: #17365D;
+}
+
+.auth-close-btn {
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  color: #475569;
+  font-size: 1.4rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  position: relative;
+  z-index: 35;
+}
+
+.auth-close-btn:hover {
+  background: #E2E8F0;
+  color: #0F2640;
+  transform: scale(1.05);
+}
+
+/* Segmented Auth Tabs */
+.auth-tabs {
+  display: flex;
+  background: #F1F5F9;
+  padding: 0.25rem;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  position: relative;
+  z-index: 35;
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 0.65rem 0;
+  border: none;
+  background: transparent;
+  color: #64748B;
+  font-size: 0.92rem;
+  font-weight: 600;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.auth-tab.active {
+  background: #FFFFFF;
+  color: #0F2640;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.auth-tab:hover:not(.active) {
+  color: #0F2640;
+}
+
+/* Scrollable Body Content Container */
+.auth-body {
+  flex: 1;
+  min-height: 0; /* CRITICAL FOR FLEXBOX VERTICAL SCROLLING */
+  padding: 1.25rem 1.5rem 2.5rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Auth Sections */
+.auth-section {
+  display: none;
+  flex-direction: column;
+}
+
+.auth-section.active {
+  display: flex;
+}
+
+.auth-intro {
+  margin-bottom: 1rem;
+}
+
+.auth-intro h3 {
+  font-size: 1.25rem;
+  color: #0F2640;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.auth-intro p {
+  font-size: 0.88rem;
+  color: #64748B;
+  line-height: 1.4;
+}
+
+/* Auth Form Controls */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.form-group label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #334155;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  background: #F8FAFC;
+  border: 1px solid #CBD5E1;
+  border-radius: 10px;
+  color: #0F2640;
+  font-size: 0.92rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.form-group input::placeholder {
+  color: #94A3B8;
+}
+
+.form-group input:focus {
+  background: #FFFFFF;
+  border-color: #17365D;
+  box-shadow: 0 0 0 3px rgba(23, 54, 93, 0.12);
+}
+
+/* Form Options */
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.84rem;
+  margin-top: -0.1rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  color: #475569;
+}
+
+.remember-me input[type="checkbox"] {
+  accent-color: #17365D;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.forgot-link {
+  color: #17365D;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* Main Submit Button */
+.auth-submit-btn {
+  margin-top: 0.5rem;
+  padding: 0.85rem;
+  border: none;
+  border-radius: 11px;
+  background: #17365D;
+  color: #FFFFFF;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(23, 54, 93, 0.22);
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  position: relative;
+  z-index: 25;
+  pointer-events: auto;
+}
+
+.auth-submit-btn:hover {
+  background-color: #0F2640;
+  box-shadow: 0 6px 18px rgba(15, 38, 64, 0.3);
+}
+
+.auth-submit-btn:active {
+  transform: scale(0.98);
+}
+
+/* Social Authentication Divider */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 1.25rem 0 1rem;
+  color: #94A3B8;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #E2E8F0;
+}
+
+.auth-divider span {
+  padding: 0 0.6rem;
+}
+
+/* Production Standard Social Login Buttons */
+.social-auth-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  height: 42px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.social-btn:hover {
+  background: #F8FAFC;
+  border-color: #CBD5E1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+}
+
+.social-btn:active {
+  transform: translateY(0);
+}
+
+.social-btn-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Standalone Page Container & Card (signup.html) */
+.signup-page-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 110px 1.5rem 3rem; /* Top padding clears fixed navbar header */
+  background: var(--bg-dark, #001D39);
+  position: relative;
+  z-index: 1;
+}
+
+.signup-card {
+  width: 100%;
+  max-width: 450px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  padding: 2.25rem 2rem;
+  color: #0F2640;
+  position: relative;
+  z-index: 2;
+}
+
+.signup-card .auth-tabs {
+  margin-bottom: 1.5rem;
+}
+}
+
+/* Footer Text */
+.auth-footer-text {
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #64748B;
+}
+
+.auth-footer-text a {
+  color: #17365D;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.auth-footer-text a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive View */
+@media (max-width: 480px) {
+  .auth-top-sticky {
+    padding: 1rem 1.25rem 0.5rem;
+  }
+
+  .auth-body {
+    padding: 1rem 1.25rem 2rem;
+  }
+
+  .signup-page-container {
+    padding-top: 90px;
+  }
+
+  .signup-card {
+    padding: 1.5rem 1.25rem;
+  }
+  
+  .social-btn-label {
+    display: none; /* Hide label on small phones to keep icons centered */
+  }
+}

@@ -24,6 +24,7 @@
 /* Include Global Navbar & Footer Component Stylesheets */
 @import "../globalcomp/navbar.css";
 @import "../globalcomp/footer.css";
+@import "signup.css";
 
 /* Universal Reset */
 * {
