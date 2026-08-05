@@ -6,38 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SkyFlow – Airline Management System</title>
 
-  <!-- Global reset + tokens -->
-  <style>
-    :root {
-      --bg-dark: #001d39;
-      --white: #ffffff;
-    }
-
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      background: var(--bg-dark);
-      color: #bdd8e9;
-      overflow-x: hidden;
-    }
-
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-    }
-  </style>
-
-  <!-- Component stylesheets -->
+  <!-- Global & Component Stylesheets -->
+  <link rel="stylesheet" href="../../CSS/User/style.css">
   <link rel="stylesheet" href="../../CSS/globalcomp/navbar.css">
   <link rel="stylesheet" href="../../CSS/Landingcomp/hero.css">
   <link rel="stylesheet" href="../../CSS/Landingcomp/flights.css">
@@ -47,24 +17,297 @@
 
 <body>
 
-  <!-- Component placeholders — filled by loadComponent() below -->
-  <div id="navbar-root"></div>
-  <main>
-    <div id="hero-root"></div>
-    <div id="flights-root"></div>
-  </main>
-  <div id="footer-root"></div>
+  <!-- Dynamic Header / Navbar Container -->
+  <div id="navbar-container">
+    <header class="site-header">
+      <nav class="navbar">
+        <a href="index.html" class="navbar-logo">
+          <svg class="logo-icon" width="30" height="30" viewBox="0 0 24 24" fill="none">
+            <path d="M3 15.5L11.5 3l-1.8 8.2L21 9.5 8.5 21l2.3-8.5L3 15.5Z" fill="currentColor" />
+          </svg>
+          <span>Sky</span>Flow
+        </a>
 
-  <!-- Component Loader Script -->
+        <input type="checkbox" id="nav-toggle" class="nav-toggle-checkbox">
+
+        <label for="nav-toggle" class="mobile-toggle" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </label>
+
+        <div class="navbar-center">
+          <ul class="nav-menu" id="navMenu">
+            <li><a href="#hero" class="nav-link active">Home</a></li>
+            <li><a href="#flights" class="nav-link">Flights</a></li>
+            <li><a href="#track-flight" class="nav-link">Track Flight</a></li>
+            <li><a href="#manage" class="nav-link">My Bookings</a></li>
+            <li><a href="#offers" class="nav-link">Offers</a></li>
+            <li><a href="#help" class="nav-link">Help</a></li>
+          </ul>
+        </div>
+
+        <div class="nav-actions" id="navActions">
+          <a href="javascript:void(0)" class="btn-signin" onclick="openAuthDrawer('signin')">
+            <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>Sign In / Join</span>
+          </a>
+        </div>
+      </nav>
+    </header>
+  </div>
+
+  <!-- Main Content Container -->
+  <main id="app-content">
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Fly Beyond Boundaries</p>
+        <h1 class="hero-title">
+          WHERE 
+          <span class="animated-text-wrapper">
+            <span class="animated-text hero-title-accent">JOURNEYS</span>
+            <span class="animated-text hero-title-accent delay">ADVENTURES</span>
+          </span> 
+          TAKE FLIGHT
+        </h1>
+        <p class="hero-copy">Discover seamless travel experiences, curated for comfort, speed, and style.</p>
+
+        <!-- Search Card -->
+        <div class="search-card">
+          <!-- Trip Type -->
+          <fieldset class="trip-type">
+            <legend class="sr-only">Trip type</legend>
+            <label class="trip-label"><input type="radio" name="tripType" value="oneWay" checked><span class="radio-dot"></span> One Way</label>
+            <label class="trip-label"><input type="radio" name="tripType" value="roundTrip"><span class="radio-dot"></span> Round Trip</label>
+            <label class="trip-label"><input type="radio" name="tripType" value="multiCity"><span class="radio-dot"></span> Multi City</label>
+          </fieldset>
+
+          <!-- Keyword Search -->
+          <div class="keyword-field">
+            <label class="field-label" for="flightSearch">Search flight</label>
+            <input id="flightSearch" type="search" class="keyword-input" placeholder="Search by flight number, airline, city or airport code">
+          </div>
+
+          <!-- Airport + Date Fields -->
+          <div class="fields-wrapper">
+            <div class="fields-row">
+              <div class="flight-field">
+                <label class="field-label" for="departureFrom">Departure From</label>
+                <input id="departureFrom" type="search" class="field-control" placeholder="City or airport">
+              </div>
+
+              <button class="swap-btn" id="swapBtn" type="button" aria-label="Swap">&#8644;</button>
+
+              <div class="flight-field">
+                <label class="field-label" for="goingTo">Going To</label>
+                <input id="goingTo" type="search" class="field-control" placeholder="City or airport">
+              </div>
+
+              <div class="flight-field">
+                <label class="field-label" for="departureDate">Departure Date</label>
+                <input id="departureDate" type="date" class="field-control" value="2026-08-04">
+              </div>
+
+              <div class="flight-field">
+                <label class="field-label" for="returnDate">Return Date</label>
+                <input id="returnDate" type="date" class="field-control" value="2026-08-11">
+              </div>
+
+              <div class="flight-field">
+                <label class="field-label" for="travellersClass">Travellers & Class</label>
+                <select id="travellersClass" class="field-control">
+                  <option>1 Traveller, Economy</option>
+                  <option>1 Traveller, Premium Economy</option>
+                  <option>2 Travellers, Economy</option>
+                  <option>2 Travellers, Business</option>
+                </select>
+              </div>
+            </div>
+            <button class="search-btn" id="searchBtn">Search</button>
+          </div>
+
+          <!-- Result Message -->
+          <p class="results-msg" id="resultsMsg" aria-live="polite"></p>
+
+          <!-- Special Fares -->
+          <div class="fares-row">
+            <div class="fare-options">
+              <label class="fare-label"><input type="radio" name="fareType" value="regular" checked><span class="fare-title">Regular</span><span class="fare-desc">Regular Fares</span></label>
+              <label class="fare-label"><input type="radio" name="fareType" value="student"><span class="fare-title">Student</span><span class="fare-desc">Extra Baggage</span></label>
+              <label class="fare-label"><input type="radio" name="fareType" value="armed"><span class="fare-title">Armed Forces</span><span class="fare-desc">Extra Discount</span></label>
+              <label class="fare-label"><input type="radio" name="fareType" value="senior"><span class="fare-title">Senior Citizen</span><span class="fare-desc">Extra Discount</span></label>
+            </div>
+            <label class="nonstop-label"><input type="checkbox" id="nonStop"> Non-Stop Flights</label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Available Flights Section -->
+    <section class="flights-section" id="flights">
+      <div class="flights-header">
+        <div>
+          <p class="flights-eyebrow" id="flightsKicker">Available Flights</p>
+          <h2 class="flights-title" id="flightsTitle">All Flights</h2>
+        </div>
+        <p class="flights-note" id="flightsNote">All available flights are shown below.</p>
+      </div>
+      <div class="flights-grid" id="flightsGrid"></div>
+    </section>
+  </main>
+
+  <!-- Dynamic Footer Container -->
+  <div id="footer-container">
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="#" class="footer-logo"><span>Sky</span>Flow</a>
+          <p class="footer-tagline">Elevating airline management and flight booking experience worldwide.</p>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="#hero">Home</a></li>
+              <li><a href="#flights">Flights</a></li>
+              <li><a href="#manage">Bookings</a></li>
+              <li><a href="#track-flight">Flight Status</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Press & News</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Legal & Support</h4>
+            <ul>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Help Center</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 SkyFlow AMS. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Slide-out Auth Drawer -->
+  <div id="auth-drawer" class="auth-drawer" aria-hidden="true">
+    <div class="auth-overlay" onclick="closeAuthDrawer()"></div>
+    <div class="auth-panel">
+      <div class="auth-top-sticky">
+        <div class="auth-header">
+          <div class="auth-brand">
+            <svg class="auth-logo-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 15.5L11.5 3l-1.8 8.2L21 9.5 8.5 21l2.3-8.5L3 15.5Z" fill="currentColor" />
+            </svg>
+            <span>SkyFlow</span>
+          </div>
+          <button type="button" class="auth-close-btn" onclick="closeAuthDrawer()">&times;</button>
+        </div>
+        <div class="auth-tabs">
+          <button type="button" id="tab-signin" class="auth-tab active" onclick="switchAuthTab('signin')">Sign In</button>
+          <button type="button" id="tab-signup" class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
+        </div>
+      </div>
+
+      <div class="auth-body">
+        <!-- Sign In Section -->
+        <div id="section-signin" class="auth-section active">
+          <div class="auth-intro">
+            <h3>Welcome Back</h3>
+            <p>Sign in to access your flight bookings and preferences.</p>
+          </div>
+          <form id="form-signin" class="auth-form" onsubmit="handleSignInSubmit(event, 'drawer')">
+            <div class="form-group">
+              <label for="signin-email">Email Address</label>
+              <input type="email" id="signin-email" placeholder="name@example.com" required autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label for="signin-password">Password</label>
+              <input type="password" id="signin-password" placeholder="••••••••" required autocomplete="current-password">
+            </div>
+            <div class="form-options">
+              <label class="remember-me"><input type="checkbox"> <span>Remember me</span></label>
+              <a href="#" class="forgot-link" onclick="event.preventDefault(); alert('Password reset flow not wired up yet.');">Forgot password?</a>
+            </div>
+            <p id="signin-error" class="auth-error-text" style="display:none;"></p>
+            <button type="submit" class="auth-submit-btn">Sign In to SkyFlow</button>
+          </form>
+          <div class="auth-divider"><span>or sign in with</span></div>
+          <div class="social-auth-grid">
+            <button type="button" class="social-btn" onclick="handleSocialAuth('google', 'signin')">Google</button>
+            <button type="button" class="social-btn" onclick="handleSocialAuth('apple', 'signin')">Apple</button>
+            <button type="button" class="social-btn" onclick="handleSocialAuth('facebook', 'signin')">Facebook</button>
+          </div>
+          <div class="auth-footer-text">Don't have an account? <a href="#" onclick="event.preventDefault(); switchAuthTab('signup');">Create account</a></div>
+        </div>
+
+        <!-- Sign Up Section -->
+        <div id="section-signup" class="auth-section">
+          <div id="drawer-signup-form-step">
+            <div class="auth-intro">
+              <h3>Create Your Account</h3>
+              <p>Join SkyFlow today for exclusive flight offers and seamless travel.</p>
+            </div>
+            <form id="form-signup" class="auth-form" onsubmit="handleSignUpSubmit(event, 'drawer')">
+              <div class="form-group">
+                <label for="signup-name">Full Name</label>
+                <input type="text" id="signup-name" placeholder="John Doe" required autocomplete="name">
+              </div>
+              <div class="form-group">
+                <label for="signup-email">Email Address</label>
+                <input type="email" id="signup-email" placeholder="name@example.com" required autocomplete="email">
+              </div>
+              <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" placeholder="At least 8 characters" minlength="8" required autocomplete="new-password">
+              </div>
+              <div class="form-group">
+                <label for="signup-confirm-password">Confirm Password</label>
+                <input type="password" id="signup-confirm-password" placeholder="Re-enter password" minlength="8" required autocomplete="new-password">
+              </div>
+              <p id="signup-error" class="auth-error-text" style="display:none;"></p>
+              <button type="submit" class="auth-submit-btn">Create SkyFlow Account</button>
+            </form>
+            <div class="auth-divider"><span>or sign up with</span></div>
+            <div class="social-auth-grid">
+              <button type="button" class="social-btn" onclick="handleSocialAuth('google', 'signup')">Google</button>
+              <button type="button" class="social-btn" onclick="handleSocialAuth('apple', 'signup')">Apple</button>
+              <button type="button" class="social-btn" onclick="handleSocialAuth('facebook', 'signup')">Facebook</button>
+            </div>
+            <div class="auth-footer-text">Already have an account? <a href="#" onclick="event.preventDefault(); switchAuthTab('signin');">Sign in instead</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Component Loader Script (Safe dynamic fetch with fallback) -->
   <script>
     async function loadComponent(url, containerId) {
       try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error(`Failed to load ${url}`);
+        if (!response.ok) return;
         const html = await response.text();
-        document.getElementById(containerId).innerHTML = html;
+        const el = document.getElementById(containerId);
+        if (el && html.trim()) {
+          el.innerHTML = html;
+        }
       } catch (error) {
-        console.error('Error loading component:', error);
+        console.warn(`Local fetch bypassed for ${url} (using default markup):`, error.message);
       }
     }
 
@@ -73,40 +316,27 @@
         history.scrollRestoration = 'manual';
       }
 
-      // Load global components
       await loadComponent('globalcomp/navbar.html', 'navbar-container');
       await loadComponent('globalcomp/footer.html', 'footer-container');
 
-      // Setup routing for main content
-      async function handleRoute() {
+      function handleRoute() {
         const hash = window.location.hash ? window.location.hash.substring(1) : 'hero';
-
-        // Define route mappings
-        const routes = {
-          'hero': 'Landingcomp/hero.html',
-          'book': 'Landingcomp/hero.html',
-          'manage': 'Landingcomp/hero.html',
-          'flights': 'Landingcomp/hero.html',
-          'track-flight': 'Landingcomp/hero.html',
-          'offers': 'Landingcomp/hero.html',
-          'help': 'Landingcomp/hero.html'
-        };
-
-        const pageUrl = routes[hash] || routes.hero;
-        await loadComponent(pageUrl, 'app-content');
-        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        const target = document.getElementById(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
       }
 
-      // Initial route load
-      await handleRoute();
-
-      // Listen for hash changes
       window.addEventListener('hashchange', handleRoute);
     }
 
-    init();
+    window.addEventListener('DOMContentLoaded', initApp);
   </script>
 
+  <!-- Application Scripts -->
+  <script src="../../Javascript/User/user.js"></script>
+  <script src="../../Javascript/User/flights.js"></script>
+  <script src="../../Javascript/User/auth.js"></script>
 </body>
 
 </html>
