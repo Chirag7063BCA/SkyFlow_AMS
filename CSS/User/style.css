@@ -5,8 +5,8 @@
 /* Global & Component Stylesheet Imports */
 @import "../globalcomp/navbar.css";
 @import "../globalcomp/footer.css";
-@import "hero.css";
-@import "flights.css";
+@import "../Landingcomp/hero.css";
+@import "../Landingcomp/flights.css";
 @import "signup.css";
 
 /* Global Color Palette Variables */

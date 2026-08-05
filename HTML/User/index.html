@@ -43,31 +43,25 @@
       await loadComponent('globalcomp/navbar.html', 'navbar-container');
       await loadComponent('globalcomp/footer.html', 'footer-container');
 
-      // Setup routing for main content
-      async function handleRoute() {
-        const hash = window.location.hash ? window.location.hash.substring(1) : 'hero';
+      // Load main page contents (hero and flights sections)
+      try {
+        const heroResponse = await fetch('Landingcomp/hero.html');
+        if (!heroResponse.ok) throw new Error('Failed to load hero section');
+        const heroHtml = await heroResponse.text();
 
-        // Define route mappings
-        const routes = {
-          'hero': 'Landingcomp/hero.html',
-          'book': 'Landingcomp/hero.html',
-          'manage': 'Landingcomp/hero.html',
-          'flights': 'Landingcomp/hero.html',
-          'track-flight': 'Landingcomp/hero.html',
-          'offers': 'Landingcomp/hero.html',
-          'help': 'Landingcomp/hero.html'
-        };
+        const flightsResponse = await fetch('Landingcomp/flights.html');
+        if (!flightsResponse.ok) throw new Error('Failed to load flights section');
+        const flightsHtml = await flightsResponse.text();
 
-        const pageUrl = routes[hash] || routes.hero;
-        await loadComponent(pageUrl, 'app-content');
-        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        document.getElementById('app-content').innerHTML = heroHtml + flightsHtml;
+
+        // Load flights script to wire up search filters and render flights
+        const script = document.createElement('script');
+        script.src = '../../Javascript/User/flights.js';
+        document.body.appendChild(script);
+      } catch (error) {
+        console.error('Error loading main page content:', error);
       }
-
-      // Initial route load
-      await handleRoute();
-
-      // Listen for hash changes
-      window.addEventListener('hashchange', handleRoute);
     }
 
     // Initialize when DOM is ready
