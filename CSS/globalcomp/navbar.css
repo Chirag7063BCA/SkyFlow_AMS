@@ -41,8 +41,7 @@
   list-style: none;
   padding: .22rem;
   border-radius: .35rem;
-  background: rgba(141,184,221,.32);
-  backdrop-filter: blur(14px);
+  background: rgba(14, 32, 54, 0.75);
 }
 
 .nav-link {
@@ -79,16 +78,19 @@
   min-height: 46px;
   padding: .68rem 1.3rem;
   border-radius: .35rem;
-  border: 1px solid rgba(255,255,255,.5);
+  border: 1px solid rgba(255,255,255,.6);
   color: #fff;
   text-decoration: none;
   font-size: .9rem;
-  font-weight: 500;
-  background: rgba(255,255,255,.1);
-  backdrop-filter: blur(12px);
-  transition: background .2s, transform .2s;
+  font-weight: 600;
+  background: rgba(255,255,255,.18);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
-.btn-signin:hover { background: rgba(255,255,255,.2); transform: translateY(-1px); }
+.btn-signin:hover {
+  background: rgba(255,255,255,.35);
+  border-color: #ffffff;
+}
 
 /* Hamburger button */
 .mobile-toggle {
