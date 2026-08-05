@@ -6,9 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Bookings - Flight Booking</title>
     <link rel="stylesheet" href="../../../CSS/mybookings.css/style.css">
+    <link rel="stylesheet" href="../../../CSS/globalcomp/navbar.css">
+    <link rel="stylesheet" href="../../../CSS/globalcomp/footer.css">
 </head>
 
 <body>
+
+    <!-- Dynamic Component Containers -->
+    <div id="navbar-container"></div>
 
     <!-- Main Content Area -->
     <div class="bookings-container">
@@ -194,6 +199,43 @@
 
     </div>
 
+    <!-- Dynamic Component Containers -->
+    <div id="footer-container"></div>
+
+    <!-- Component Loader Script -->
+    <script>
+        async function loadComponent(url, containerId) {
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`Failed to load ${url}`);
+                const html = await response.text();
+                document.getElementById(containerId).innerHTML = html;
+            } catch (error) {
+                console.error('Error loading component:', error);
+            }
+        }
+
+        async function initApp() {
+            // Load global components
+            await loadComponent('../globalcomp/navbar.html', 'navbar-container');
+            await loadComponent('../globalcomp/footer.html', 'footer-container');
+
+            // Adjust navbar links to point back to the main index.html
+            const logo = document.querySelector('.navbar-logo');
+            if (logo) logo.href = '../index.html';
+
+            const homeLink = document.querySelector('.nav-link[href="#hero"]');
+            if (homeLink) homeLink.href = '../index.html#hero';
+
+            const flightsLink = document.querySelector('.nav-link[href="#flights"]');
+            if (flightsLink) flightsLink.href = '../index.html#flights';
+
+            const myBookingsLink = document.querySelector('.nav-link[href="mybookings/bookings.html"]');
+            if (myBookingsLink) myBookingsLink.href = '#';
+        }
+
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
 </body>
 
 </html>
