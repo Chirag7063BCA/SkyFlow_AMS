@@ -68,6 +68,13 @@ function handleGoogleLogin() {
 
 // Event Listeners on DOM Load
 document.addEventListener('DOMContentLoaded', () => {
+  // Open triggers based on hash
+  if (window.location.hash === '#signin' || window.location.hash === '#login') {
+    setTimeout(() => openDrawer('signin'), 100);
+  } else if (window.location.hash === '#signup') {
+    setTimeout(() => openDrawer('signup'), 100);
+  }
+
   const openBtn = document.getElementById('openSignupBtn');
   const closeBtn = document.getElementById('closeDrawerBtn');
   const overlay = document.getElementById('drawerOverlay');

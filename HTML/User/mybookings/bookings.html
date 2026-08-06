@@ -19,13 +19,22 @@
     <div class="bookings-container">
 
         <div class="page-header">
-            <h1>My Bookings</h1>
+            <h1>
+                MY
+                <span class="animated-text-wrapper">
+                    <span class="animated-text title-accent">BOOKINGS</span>
+                    <span class="animated-text title-accent delay">FLIGHTS</span>
+                </span>
+            </h1>
             <p>View and manage all your booked flights.</p>
         </div>
 
         <div class="search-section">
             <div class="search-box">
-                <span class="search-icon">🔍</span>
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
                 <input type="text" placeholder="Search by Booking ID, Flight Number, or Destination">
             </div>
         </div>
@@ -194,7 +203,7 @@
         <div class="empty-state">
             <div class="empty-icon">🧳</div>
             <p>No more bookings to display.</p>
-            <button class="primary-btn">Book Another Flight</button>
+            <button class="primary-btn" onclick="window.location.href='../index.html'">Book Another Flight</button>
         </div>
 
     </div>
@@ -204,6 +213,10 @@
 
     <!-- Component Loader Script -->
     <script>
+        function openDrawer(tab = 'signin') {
+            window.location.href = '../index.html#' + tab;
+        }
+
         async function loadComponent(url, containerId) {
             try {
                 const response = await fetch(url);
