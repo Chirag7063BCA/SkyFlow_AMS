@@ -9,6 +9,38 @@ async function loadFlights() {
   }
 }
 
+// ── Load airport data from JSON ──────────────────────────
+async function loadAirports() {
+  try {
+    const res = await fetch('../../Data/airports.json');
+    return await res.json();
+  } catch {
+    console.warn('Could not load airports.json — using empty list');
+    return [];
+  }
+}
+
+// ── Fallback Popular Airports ─────────────────────────────
+const POPULAR_AIRPORTS = [
+  { city: 'London', name: 'Heathrow Airport', iata: 'LHR', country: 'United Kingdom' },
+  { city: 'New York', name: 'John F Kennedy International Airport', iata: 'JFK', country: 'United States' },
+  { city: 'Tokyo', name: 'Haneda Airport', iata: 'HND', country: 'Japan' },
+  { city: 'Dubai', name: 'Dubai International Airport', iata: 'DXB', country: 'United Arab Emirates' },
+  { city: 'Singapore', name: 'Changi Airport', iata: 'SIN', country: 'Singapore' },
+  { city: 'New Delhi', name: 'Indira Gandhi International Airport', iata: 'DEL', country: 'India' },
+  { city: 'Mumbai', name: 'Chhatrapati Shivaji Maharaj International Airport', iata: 'BOM', country: 'India' },
+  { city: 'Sydney', name: 'Sydney Airport', iata: 'SYD', country: 'Australia' }
+];
+
+// ── Helper to parse IATA code from autocomplete value ─────
+function getAirportCodeOrTerm(value) {
+  const match = value.match(/\(([^)]+)\)$/);
+  if (match) {
+    return match[1].toLowerCase().trim();
+  }
+  return value.toLowerCase().trim();
+}
+
 // ── Build one card's HTML ────────────────────────────────
 function buildCard(f) {
   const statusKey = f.status.toLowerCase().replace(/\s+/g, '-');
@@ -61,10 +93,13 @@ function updateHeading(hasFilter, count) {
 
 // ── Filter flights from form inputs ─────────────────────
 function applyFilters(allFlights) {
-  const term    = document.getElementById('flightSearch').value.trim().toLowerCase();
-  const from    = document.getElementById('departureFrom').value.trim().toLowerCase();
-  const to      = document.getElementById('goingTo').value.trim().toLowerCase();
-  const nonStop = document.getElementById('nonStop').checked;
+  const term       = document.getElementById('flightSearch').value.trim().toLowerCase();
+  const fromRaw    = document.getElementById('departureFrom').value.trim();
+  const toRaw      = document.getElementById('goingTo').value.trim();
+  const nonStop    = document.getElementById('nonStop').checked;
+
+  const from = getAirportCodeOrTerm(fromRaw);
+  const to   = getAirportCodeOrTerm(toRaw);
 
   const results = allFlights.filter(f => {
     const searchText = [f.flightNumber, f.airline, f.originCity, f.destinationCity, f.fromAirportCode, f.toAirportCode, f.status]
@@ -82,18 +117,152 @@ function applyFilters(allFlights) {
   renderCards(results);
 }
 
+// ── Autocomplete Setup Helper ────────────────────────────
+function setupAutocomplete(inputId, dropdownId, airports, allFlights) {
+  const input = document.getElementById(inputId);
+  const dropdown = document.getElementById(dropdownId);
+  if (!input || !dropdown) return;
+
+  let activeIndex = -1;
+  let currentSuggestions = [];
+
+  function renderSuggestions(query) {
+    let filtered = [];
+    if (!query) {
+      filtered = POPULAR_AIRPORTS;
+    } else {
+      const q = query.toLowerCase();
+      filtered = airports.filter(a => {
+        return (a.city && a.city.toLowerCase().includes(q)) ||
+               (a.name && a.name.toLowerCase().includes(q)) ||
+               (a.iata && a.iata.toLowerCase().includes(q)) ||
+               (a.country && a.country.toLowerCase().includes(q));
+      });
+      filtered = filtered.slice(0, 10);
+    }
+
+    currentSuggestions = filtered;
+    activeIndex = -1;
+
+    if (filtered.length === 0) {
+      dropdown.innerHTML = '<div style="padding: 1.25rem 1rem; color: #49769f; font-size: 0.9rem; text-align: center; font-weight: 500;">No matching airports found</div>';
+    } else {
+      dropdown.innerHTML = filtered.map((airport, index) => {
+        let cityHtml = airport.city || '';
+        let airportHtml = airport.name || '';
+        let iataHtml = airport.iata || '';
+        let country = airport.country || '';
+
+        if (query) {
+          const escQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+          const regex = new RegExp(`(${escQuery})`, 'gi');
+          cityHtml = cityHtml.replace(regex, '<span class="autocomplete-highlight">$1</span>');
+          airportHtml = airportHtml.replace(regex, '<span class="autocomplete-highlight">$1</span>');
+          iataHtml = iataHtml.replace(regex, '<span class="autocomplete-highlight">$1</span>');
+        }
+
+        return `
+          <div class="autocomplete-option" data-index="${index}">
+            <div class="autocomplete-option-icon">✈</div>
+            <div class="autocomplete-option-info">
+              <span class="autocomplete-option-city">${cityHtml}, ${country}</span>
+              <span class="autocomplete-option-airport">${airportHtml}</span>
+            </div>
+            <span class="autocomplete-option-badge">${iataHtml}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    dropdown.classList.add('show');
+  }
+
+  function selectOption(index) {
+    if (index >= 0 && index < currentSuggestions.length) {
+      const selected = currentSuggestions[index];
+      input.value = `${selected.city}, ${selected.country || ''} (${selected.iata})`;
+      dropdown.classList.remove('show');
+      applyFilters(allFlights);
+    }
+  }
+
+  input.addEventListener('focus', () => {
+    // Close all other dropdowns
+    document.querySelectorAll('.autocomplete-dropdown').forEach(d => {
+      if (d !== dropdown) d.classList.remove('show');
+    });
+    renderSuggestions(input.value.trim());
+  });
+
+  input.addEventListener('input', () => {
+    renderSuggestions(input.value.trim());
+  });
+
+  dropdown.addEventListener('click', (e) => {
+    const option = e.target.closest('.autocomplete-option');
+    if (option) {
+      const index = parseInt(option.getAttribute('data-index'), 10);
+      selectOption(index);
+    }
+  });
+
+  input.addEventListener('keydown', (e) => {
+    if (!dropdown.classList.contains('show')) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        renderSuggestions(input.value.trim());
+      }
+      return;
+    }
+
+    const options = dropdown.querySelectorAll('.autocomplete-option');
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      activeIndex = (activeIndex + 1) % currentSuggestions.length;
+      updateActiveOption(options);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      activeIndex = (activeIndex - 1 + currentSuggestions.length) % currentSuggestions.length;
+      updateActiveOption(options);
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (activeIndex >= 0 && activeIndex < currentSuggestions.length) {
+        selectOption(activeIndex);
+      } else if (currentSuggestions.length > 0) {
+        selectOption(0);
+      }
+    } else if (e.key === 'Escape') {
+      dropdown.classList.remove('show');
+      input.blur();
+    }
+  });
+
+  function updateActiveOption(options) {
+    options.forEach((opt, idx) => {
+      if (idx === activeIndex) {
+        opt.classList.add('active');
+        opt.scrollIntoView({ block: 'nearest' });
+      } else {
+        opt.classList.remove('active');
+      }
+    });
+  }
+}
+
 // ── Wire up all event listeners ──────────────────────────
-function setupListeners(allFlights) {
+function setupListeners(allFlights, allAirports) {
   // Search button → filter + scroll to results
   document.getElementById('searchBtn').addEventListener('click', () => {
     applyFilters(allFlights);
     document.getElementById('flights').scrollIntoView({ behavior: 'smooth' });
   });
 
-  // Live filter on typing
-  ['flightSearch', 'departureFrom', 'goingTo'].forEach(id => {
-    document.getElementById(id).addEventListener('input', () => applyFilters(allFlights));
-  });
+  // Autocomplete bindings
+  setupAutocomplete('departureFrom', 'departureFromDropdown', allAirports, allFlights);
+  setupAutocomplete('goingTo', 'goingToDropdown', allAirports, allFlights);
+
+  // Live filter on search keyword input
+  document.getElementById('flightSearch').addEventListener('input', () => applyFilters(allFlights));
 
   // Non-stop checkbox
   document.getElementById('nonStop').addEventListener('change', () => applyFilters(allFlights));
@@ -103,7 +272,18 @@ function setupListeners(allFlights) {
     const dep = document.getElementById('departureFrom');
     const dst = document.getElementById('goingTo');
     [dep.value, dst.value] = [dst.value, dep.value];
+    
+    // Close dropdowns
+    document.querySelectorAll('.autocomplete-dropdown').forEach(d => d.classList.remove('show'));
+    
     applyFilters(allFlights);
+  });
+
+  // Click outside listener to close dropdowns
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.flight-field')) {
+      document.querySelectorAll('.autocomplete-dropdown').forEach(d => d.classList.remove('show'));
+    }
   });
 
   // Nav active link highlight
@@ -119,8 +299,9 @@ function setupListeners(allFlights) {
 // ── Init ─────────────────────────────────────────────────
 async function init() {
   const allFlights = await loadFlights();
+  const allAirports = await loadAirports();
   renderCards(allFlights);
-  setupListeners(allFlights);
+  setupListeners(allFlights, allAirports);
 }
 
 init();
