@@ -26,7 +26,7 @@
       <!-- Keyword Search -->
       <div class="keyword-field">
         <label class="field-label" for="flightSearch">Search flight</label>
-        <input id="flightSearch" type="search" class="keyword-input" placeholder="Search by flight number, airline, city or airport code">
+        <input id="flightSearch" type="search" class="keyword-input" placeholder="Search by flight number, airline, city or airport code" autocomplete="off">
       </div>
 
       <!-- Airport + Date Fields -->
@@ -35,14 +35,16 @@
 
           <div class="flight-field">
             <label class="field-label" for="departureFrom">Departure From</label>
-            <input id="departureFrom" type="search" class="field-control" placeholder="City or airport">
+            <input id="departureFrom" type="search" class="field-control" placeholder="City or airport" autocomplete="off">
+            <div id="departureFromDropdown" class="autocomplete-dropdown"></div>
           </div>
 
           <button class="swap-btn" id="swapBtn" type="button" aria-label="Swap">&#8644;</button>
 
           <div class="flight-field">
             <label class="field-label" for="goingTo">Going To</label>
-            <input id="goingTo" type="search" class="field-control" placeholder="City or airport">
+            <input id="goingTo" type="search" class="field-control" placeholder="City or airport" autocomplete="off">
+            <div id="goingToDropdown" class="autocomplete-dropdown"></div>
           </div>
 
           <div class="flight-field">

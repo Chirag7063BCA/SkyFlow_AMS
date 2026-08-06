@@ -79,8 +79,9 @@ document.addEventListener('keydown', (e) => {
 
 // Event Listeners on DOM Load
 document.addEventListener('DOMContentLoaded', () => {
-  handleGlobalNavbarScroll();
-
+  const openBtn = document.getElementById('openSignupBtn');
+  const closeBtn = document.getElementById('closeDrawerBtn');
+  const overlay = document.getElementById('drawerOverlay');
   const signinForm = document.getElementById('signinForm');
   const signupForm = document.getElementById('signupForm');
 
