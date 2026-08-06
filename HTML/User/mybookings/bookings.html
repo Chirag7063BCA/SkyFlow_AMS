@@ -232,10 +232,14 @@
 
             const myBookingsLink = document.querySelector('.nav-link[href="mybookings/bookings.html"]');
             if (myBookingsLink) myBookingsLink.href = '#';
+
+            const helpLink = document.querySelector('.nav-link[href="help/help.html"]');
+            if (helpLink) helpLink.href = '../help/help.html';
         }
 
         window.addEventListener('DOMContentLoaded', initApp);
     </script>
+    <script src="../../../Javascript/User/auth.js"></script>
 </body>
 
 </html>
