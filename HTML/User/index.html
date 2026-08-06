@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../../CSS/User/style.css">
   <link rel="stylesheet" href="../../CSS/globalcomp/navbar.css">
   <link rel="stylesheet" href="../../CSS/Landingcomp/hero.css">
-  <link rel="stylesheet" href="../../CSS/Landingcomp/flights.css">
+  <link rel="stylesheet" href="../../CSS/flightscomp/flights.css">
   <link rel="stylesheet" href="../../CSS/globalcomp/footer.css">
   <link rel="stylesheet" href="../../CSS/User/signup.css">
   <script src="../../Javascript/User/auth.js"></script>
@@ -145,11 +145,14 @@
         if (!heroResponse.ok) throw new Error('Failed to load hero section');
         const heroHtml = await heroResponse.text();
 
-        const flightsResponse = await fetch('Landingcomp/flights.html');
+        const flightsResponse = await fetch('flightscomp/flights.html');
         if (!flightsResponse.ok) throw new Error('Failed to load flights section');
         const flightsHtml = await flightsResponse.text();
 
-        document.getElementById('app-content').innerHTML = heroHtml + flightsHtml;
+        document.getElementById('app-content').innerHTML = `
+          <div id="hero-view">${heroHtml}</div>
+          <div id="flights-view" style="display: none;">${flightsHtml}</div>
+        `;
 
         // Load flights script to wire up search filters and render flights
         const script = document.createElement('script');
