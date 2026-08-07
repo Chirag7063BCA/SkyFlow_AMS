@@ -171,6 +171,170 @@ function setupAutocomplete(inputId, dropdownId, airports, allFlights) {
   });
 }
 
+// ── Calendar Picker Helper ─────────────────
+function setupCalendarPicker(inputId, dropdownId, allFlights) {
+  const input = document.getElementById(inputId), dropdown = document.getElementById(dropdownId);
+  if (!input || !dropdown) return;
+
+  const MONTH_NAMES = ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+  const FULL_MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const MONTH_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const DAYS_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  let viewDate = new Date(2026, 7, 1);
+
+  const parseFormattedDate = (val) => {
+    if (!val) return null;
+    const parts = val.split(', ');
+    const dateStr = parts.length > 1 ? parts[1] : val;
+    const tokens = dateStr.trim().split(/\s+/);
+    if (tokens.length < 3) return null;
+    const dayNum = parseInt(tokens[0], 10);
+    const mIdx = MONTH_SHORT.findIndex(m => m.toLowerCase() === tokens[1].toLowerCase());
+    if (mIdx === -1 || isNaN(dayNum)) return null;
+    const yearNum = tokens[2].length === 2 ? 2000 + parseInt(tokens[2], 10) : parseInt(tokens[2], 10);
+    return new Date(yearNum, mIdx, dayNum);
+  };
+
+  const renderCalendar = () => {
+    const selectedDate = parseFormattedDate(input.value);
+    const year = viewDate.getFullYear();
+    const month = viewDate.getMonth();
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    let html = `
+      <div class="cal-header">
+        <button type="button" class="cal-nav-btn prev-month">&lsaquo;</button>
+        <span class="cal-title">${FULL_MONTH_NAMES[month]} ${year}</span>
+        <button type="button" class="cal-nav-btn next-month">&rsaquo;</button>
+      </div>
+      <div class="cal-weekdays">
+        <span class="cal-weekday">Su</span>
+        <span class="cal-weekday">Mo</span>
+        <span class="cal-weekday">Tu</span>
+        <span class="cal-weekday">We</span>
+        <span class="cal-weekday">Th</span>
+        <span class="cal-weekday">Fr</span>
+        <span class="cal-weekday">Sa</span>
+      </div>
+      <div class="cal-days-grid">
+    `;
+
+    for (let i = 0; i < firstDay; i++) {
+      html += `<div class="cal-day empty"></div>`;
+    }
+
+    const curSelYear = selectedDate ? selectedDate.getFullYear() : -1;
+    const curSelMonth = selectedDate ? selectedDate.getMonth() : -1;
+    const curSelDay = selectedDate ? selectedDate.getDate() : -1;
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const isSelected = (curSelYear === year && curSelMonth === month && curSelDay === day);
+      html += `<div class="cal-day ${isSelected ? 'selected' : ''}" data-day="${day}">${day}</div>`;
+    }
+
+    html += `</div>`;
+    dropdown.innerHTML = html;
+
+    dropdown.querySelector('.prev-month')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      viewDate.setMonth(viewDate.getMonth() - 1);
+      renderCalendar();
+    });
+
+    dropdown.querySelector('.next-month')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      viewDate.setMonth(viewDate.getMonth() + 1);
+      renderCalendar();
+    });
+
+    dropdown.querySelectorAll('.cal-day[data-day]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const d = parseInt(el.dataset.day, 10);
+        const chosenDate = new Date(year, month, d);
+        const dayName = DAYS_SHORT[chosenDate.getDay()];
+        const monthName = MONTH_SHORT[month];
+        const yr2Digit = String(year).slice(-2);
+        input.value = `${dayName}, ${d} ${monthName} ${yr2Digit}`;
+        dropdown.classList.remove('show');
+        applyFilters(allFlights, true);
+      });
+    });
+  };
+
+  const openDropdown = (e) => {
+    e.stopPropagation();
+    document.querySelectorAll('.autocomplete-dropdown').forEach(d => d !== dropdown && d.classList.remove('show'));
+    const parsed = parseFormattedDate(input.value);
+    if (parsed) viewDate = new Date(parsed.getFullYear(), parsed.getMonth(), 1);
+    renderCalendar();
+    dropdown.classList.add('show');
+  };
+
+  input.addEventListener('click', openDropdown);
+  input.parentElement?.addEventListener('click', (e) => {
+    if (e.target.id === 'fsbReturnClear' || e.target.closest('#fsbReturnClear')) return;
+    if (e.target !== input && !dropdown.contains(e.target)) openDropdown(e);
+  });
+}
+
+// ── Travellers Menu Helper ─────────────────
+function setupTravellersMenu(inputId, dropdownId, allFlights) {
+  const input = document.getElementById(inputId), dropdown = document.getElementById(dropdownId);
+  if (!input || !dropdown) return;
+
+  const renderTravellersMenu = () => {
+    const currentVal = parseInt(input.value, 10) || 1;
+    let html = `<div class="autocomplete-header">SELECT TRAVELLERS (MAX 10)</div>`;
+
+    for (let i = 1; i <= 10; i++) {
+      const isActive = i === currentVal;
+      const label = i === 1 ? '1 Adult' : `${i} Adults`;
+      const desc = i === 1 ? 'Single passenger' : (i === 10 ? 'Maximum group booking (10 persons)' : `${i} Passengers booking`);
+      const badge = i === 10 ? '10 Max' : `${i} ${i === 1 ? 'Person' : 'Persons'}`;
+
+      html += `
+        <div class="traveller-option ${isActive ? 'active' : ''}" data-count="${i}">
+          <div class="traveller-info">
+            <div class="traveller-icon">${i === 1 ? '👤' : '👥'}</div>
+            <div>
+              <div class="traveller-label">${label}</div>
+              <div class="traveller-sub">${desc}</div>
+            </div>
+          </div>
+          <span class="traveller-badge">${badge}</span>
+        </div>
+      `;
+    }
+
+    dropdown.innerHTML = html;
+
+    dropdown.querySelectorAll('.traveller-option').forEach(el => {
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const count = parseInt(el.dataset.count, 10);
+        input.value = count === 1 ? '1 Adult' : `${count} Adults`;
+        dropdown.classList.remove('show');
+        applyFilters(allFlights, true);
+      });
+    });
+  };
+
+  const openDropdown = (e) => {
+    e.stopPropagation();
+    document.querySelectorAll('.autocomplete-dropdown').forEach(d => d !== dropdown && d.classList.remove('show'));
+    renderTravellersMenu();
+    dropdown.classList.add('show');
+  };
+
+  input.addEventListener('click', openDropdown);
+  input.parentElement?.addEventListener('click', (e) => {
+    if (e.target !== input && !dropdown.contains(e.target)) openDropdown(e);
+  });
+}
+
 // ── Init & Events ──────────────────────────
 async function init() {
   const [allFlights, allAirports] = await Promise.all([loadFlights(), loadAirports()]);
@@ -181,6 +345,17 @@ async function init() {
   applyFilters(allFlights, false);
   ['departureFrom', 'goingTo', 'fsbFrom', 'fsbTo'].forEach(id => setupAutocomplete(id, id+'Dropdown', allAirports, allFlights));
   
+  setupCalendarPicker('fsbDepart', 'fsbDepartDropdown', allFlights);
+  setupCalendarPicker('fsbReturn', 'fsbReturnDropdown', allFlights);
+  setupTravellersMenu('fsbTravellers', 'fsbTravellersDropdown', allFlights);
+
+  document.getElementById('fsbReturnClear')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const retInput = document.getElementById('fsbReturn');
+    if (retInput) retInput.value = '';
+    applyFilters(allFlights, true);
+  });
+
   document.getElementById('searchBtn')?.addEventListener('click', () => {
     ['From', 'To'].forEach(f => {
       const fsb = document.getElementById('fsb'+f), hero = document.getElementById(f === 'From' ? 'departureFrom' : 'goingTo');
@@ -228,3 +403,4 @@ async function init() {
 }
 
 init();
+
