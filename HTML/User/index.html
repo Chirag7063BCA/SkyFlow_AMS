@@ -130,6 +130,21 @@
       }
     }
 
+    function patchNavLinks() {
+      document.querySelectorAll('.nav-link[data-route]').forEach(link => {
+        const route = link.dataset.route;
+        if (route === 'home') link.href = 'index.html';
+        if (route === 'flights') link.href = 'index.html#flights';
+        if (route === 'track') link.href = 'Track%20Flight/trackFlight.html';
+        if (route === 'bookings') link.href = 'mybookings/bookings.html';
+      });
+    }
+
+    function activateNav(route) {
+      const activeLink = document.querySelector(`.nav-link[data-route="${route}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+
     async function initApp() {
       if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
@@ -137,6 +152,8 @@
 
       // Load global components
       await loadComponent('globalcomp/navbar.html', 'navbar-container');
+      patchNavLinks();
+      activateNav('home');
       await loadComponent('globalcomp/footer.html', 'footer-container');
 
       // Load main page contents (hero and flights sections)
