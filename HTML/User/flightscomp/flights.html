@@ -1,18 +1,105 @@
 <section class="flights-section" id="flights">
   <div class="flights-search-bar">
-    <div class="fsb-group">
-      <div class="fsb-field flight-field" style="position: relative;">
-        <label>From</label>
-        <input type="search" id="fsbFrom" class="fsb-input" placeholder="City or airport" autocomplete="off">
-        <div id="fsbFromDropdown" class="autocomplete-dropdown"></div>
+    <div class="fsb-container">
+      <!-- Top Fields Row -->
+      <div class="fsb-cards-row">
+        <!-- Trip Type -->
+        <div class="fsb-card">
+          <div class="fsb-card-label">
+            <span>TRIP TYPE</span>
+            <span class="fsb-chevron">▼</span>
+          </div>
+          <select class="fsb-card-select" id="fsbTripType">
+            <option value="roundTrip" selected>Round Trip</option>
+            <option value="oneWay">One Way</option>
+            <option value="multiCity">Multi City</option>
+          </select>
+        </div>
+
+        <!-- From -->
+        <div class="fsb-card flight-field" style="position: relative;">
+          <label for="fsbFrom" class="fsb-card-label">FROM</label>
+          <input type="search" id="fsbFrom" class="fsb-card-input" value="" placeholder="City or airport" autocomplete="off">
+          <div id="fsbFromDropdown" class="autocomplete-dropdown"></div>
+        </div>
+
+        <!-- Swap Button -->
+        <button class="fsb-swap-btn" id="fsbSwap" type="button" aria-label="Swap">⇄</button>
+
+        <!-- To -->
+        <div class="fsb-card flight-field" style="position: relative;">
+          <label for="fsbTo" class="fsb-card-label">TO</label>
+          <input type="search" id="fsbTo" class="fsb-card-input" value="" placeholder="City or airport" autocomplete="off">
+          <div id="fsbToDropdown" class="autocomplete-dropdown"></div>
+        </div>
+
+        <!-- Depart -->
+        <div class="fsb-card">
+          <label for="fsbDepart" class="fsb-card-label">DEPART</label>
+          <input type="text" id="fsbDepart" class="fsb-card-input" value="Thu, 6 Aug 26">
+        </div>
+
+        <!-- Return -->
+        <div class="fsb-card">
+          <div class="fsb-card-header">
+            <label for="fsbReturn" class="fsb-card-label">RETURN</label>
+            <button type="button" class="fsb-card-clear" aria-label="Clear return">✕</button>
+          </div>
+          <input type="text" id="fsbReturn" class="fsb-card-input" value="Fri, 7 Aug 26">
+        </div>
+
+        <!-- Travellers -->
+        <div class="fsb-card">
+          <label for="fsbTravellers" class="fsb-card-label">TRAVELLERS</label>
+          <input type="text" id="fsbTravellers" class="fsb-card-input" value="1 Adult">
+        </div>
+
+        <!-- Cabin Class -->
+        <div class="fsb-card">
+          <label for="fsbCabin" class="fsb-card-label">CABIN CLASS</label>
+          <input type="text" id="fsbCabin" class="fsb-card-input" value="Economy/ P...">
+        </div>
+
+        <!-- Search Button -->
+        <button class="fsb-search-btn" id="fsbSearchBtn" type="button">SEARCH</button>
       </div>
-      <button class="fsb-swap" id="fsbSwap" aria-label="Swap">&#8644;</button>
-      <div class="fsb-field flight-field" style="position: relative;">
-        <label>To</label>
-        <input type="search" id="fsbTo" class="fsb-input" placeholder="City or airport" autocomplete="off">
-        <div id="fsbToDropdown" class="autocomplete-dropdown"></div>
+
+      <!-- Bottom Fare Type Options -->
+      <div class="fsb-fare-row">
+        <span class="fsb-fare-title">FARE TYPE:</span>
+        <div class="fsb-fare-options">
+          <label class="fsb-fare-pill">
+            <input type="radio" name="fsbFareType" value="regular" checked>
+            <span>Regular</span>
+          </label>
+
+          <label class="fsb-fare-pill">
+            <input type="radio" name="fsbFareType" value="student">
+            <span>Student</span>
+          </label>
+
+          <label class="fsb-fare-pill">
+            <input type="radio" name="fsbFareType" value="armed">
+            <span>Armed Forces</span>
+          </label>
+
+          <label class="fsb-fare-pill">
+            <input type="radio" name="fsbFareType" value="gst">
+            <span>Have a GST number ?</span>
+            <span class="fsb-badge-new">new</span>
+          </label>
+
+          <label class="fsb-fare-pill">
+            <input type="radio" name="fsbFareType" value="senior">
+            <span>Senior Citizen</span>
+          </label>
+
+          <label class="fsb-fare-pill">
+            <input type="radio" name="fsbFareType" value="doctor">
+            <span>Doctor and Nurses</span>
+          </label>
+        </div>
       </div>
-      <button class="fsb-btn" id="fsbSearchBtn">Search</button>
     </div>
   </div>
 

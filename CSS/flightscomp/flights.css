@@ -64,9 +64,22 @@
 }
 
 @keyframes noteSwap {
-  0% { opacity: 0; transform: translateY(8px); }
-  15%, 35% { opacity: 1; transform: translateY(0); }
-  50%, 100% { opacity: 0; transform: translateY(-8px); }
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  15%,
+  35% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  50%,
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
 }
 
 .flights-grid {
@@ -409,24 +422,18 @@
     margin-left: auto;
   }
 
-  .fsb-group {
+  .fsb-cards-row {
     flex-wrap: wrap;
-    border-radius: 12px;
-    padding: 1rem;
-    gap: 1rem;
+    gap: 0.5rem;
   }
 
-  .fsb-field {
-    flex: 1 1 45%;
-    border: 1px solid rgba(0, 0, 0, .1);
-    border-radius: 8px;
-    padding: .5rem;
+  .fsb-card {
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 120px;
   }
 
-
-  .fsb-btn {
+  .fsb-search-btn {
     width: 100%;
-    margin-left: 0;
   }
 }
 
@@ -466,111 +473,275 @@
   }
 }
 
+/* ── Flight Search Bar (Updated Section) ── */
 .flights-search-bar {
   width: 100vw;
   margin-left: calc(-50vw + 50%);
-  height: 55vh;
+  min-height: 55vh;
   margin-top: -5rem;
   margin-bottom: 0;
   background: linear-gradient(to bottom, rgba(10, 30, 50, 0.75) 0%, rgba(10, 30, 50, 0.4) 60%, #ffffff 100%), url("../../images/Hero.png") center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 1.5rem;
+  padding: 2.5rem 1.5rem;
   animation: fadeInUp .4s cubic-bezier(.16, 1, .3, 1) both;
 }
 
-.fsb-group {
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, .15);
-  border: none;
-  padding: .75rem;
-  width: 100%;
-  max-width: 1200px;
-  overflow: visible;
-}
-
-.fsb-field {
+.fsb-container {
   display: flex;
   flex-direction: column;
-  padding: .6rem 1.25rem;
+  gap: 0.85rem;
+  width: 100%;
+  max-width: 1260px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.1rem 1.35rem;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.fsb-cards-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.fsb-card {
+  background: #f4f5f7;
+  border-radius: 10px;
+  padding: 0.55rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   flex: 1;
-  min-width: 110px;
+  min-width: 0;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.fsb-field label {
-  font-size: .75rem;
-  font-weight: 700;
+.fsb-card:hover,
+.fsb-card:focus-within {
+  background: #eaeaea;
+  border-color: #cbd5e1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.fsb-card-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #64748b;
   text-transform: uppercase;
-  color: #697886;
-  margin-bottom: .3rem;
-  letter-spacing: .05em;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 1.2;
 }
 
-.fsb-input {
+.fsb-chevron {
+  font-size: 0.55rem;
+  color: #94a3b8;
+}
+
+.fsb-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.fsb-card-clear {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.fsb-card-clear:hover {
+  color: #0f172a;
+}
+
+.fsb-card-input,
+.fsb-card-select {
   border: none;
   background: transparent;
-  font-size: 1.05rem;
+  font-size: 0.98rem;
   font-weight: 800;
-  color: #0f2640;
+  color: #0f172a;
   outline: none;
   width: 100%;
+  padding: 0;
+  font-family: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fsb-card-select {
+  appearance: none;
   cursor: pointer;
 }
 
-.fsb-input[type="date"] {
-  font-family: inherit;
-}
-
-select.fsb-input {
-  appearance: none;
-}
-
-.fsb-input::placeholder {
-  color: #999;
-  font-weight: 500;
-}
-
-
-.fsb-swap {
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, .1);
+.fsb-swap-btn {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
+  color: #2563eb;
+  font-size: 1.25rem;
+  font-weight: 800;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  color: #d11243;
-  font-weight: 700;
-  font-size: 1.2rem;
-  margin: 0 -16px;
-  z-index: 2;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, .08);
+  flex-shrink: 0;
+  align-self: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, background 0.15s ease;
 }
 
-.fsb-btn {
-  background: #d11243;
-  color: #fff;
+.fsb-swap-btn:hover {
+  transform: scale(1.1);
+  background: #f8fafc;
+}
+
+.fsb-search-btn {
+  background: #e30505;
+  color: #ffffff;
   border: none;
-  padding: 0 2.5rem;
-  height: 60px;
   border-radius: 10px;
-  font-size: 1.1rem;
-  font-weight: 700;
+  padding: 0 1.75rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
   cursor: pointer;
-  margin-left: .75rem;
-  transition: background .2s, transform .2s;
-  text-transform: uppercase;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
 
-.fsb-btn:hover {
-  background: #b50e38;
-  transform: translateY(-2px);
+.fsb-search-btn:hover {
+  background: #949ea9;
+}
+
+.fsb-fare-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.fsb-fare-title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.fsb-fare-options {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.fsb-fare-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #f4f5f7;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #1e293b;
+  transition: background 0.15s ease;
+}
+
+.fsb-fare-pill:hover {
+  background: #e2e8f0;
+}
+
+.fsb-fare-pill input[type="radio"] {
+  accent-color: #2563eb;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.fsb-badge-new {
+  background: linear-gradient(135deg, #e879f9, #ec4899);
+  color: #ffffff;
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 0.12rem 0.4rem;
+  border-radius: 10px;
+  text-transform: lowercase;
+  line-height: 1;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1200px) {
+  .fsb-cards-row {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .fsb-card {
+    flex: 1 1 calc(25% - 0.6rem);
+    min-width: 140px;
+  }
+
+  .fsb-search-btn {
+    flex: 1 1 100%;
+    height: 48px;
+    margin-top: 0.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .flights-search-bar {
+    height: auto;
+    padding: 3rem 1rem;
+    margin-top: 0;
+  }
+
+  .fsb-card {
+    flex: 1 1 calc(50% - 0.5rem);
+    min-width: 130px;
+  }
+
+  .fsb-fare-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .fsb-card {
+    flex: 1 1 100%;
+  }
+
+  .fsb-fare-pill {
+    width: 100%;
+  }
 }
 
 /* Animated Title text */

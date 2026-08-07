@@ -14,7 +14,12 @@ const POPULAR_AIRPORTS = [
   { city: 'Sydney', name: 'Sydney Airport', iata: 'SYD', country: 'Australia' }
 ];
 
-const getCode = (val) => (val.match(/\(([^)]+)\)$/)?.[1] || val).toLowerCase().trim();
+const getCode = (val) => {
+  if (!val) return '';
+  const match = val.match(/\(([^)]+)\)$/);
+  if (match) return match[1].toLowerCase().trim();
+  return val.split(',')[0].toLowerCase().trim();
+};
 const getVal = (id) => document.getElementById(id)?.value.trim() || '';
 
 // ── UI Helpers ────────────────────────────────
@@ -33,10 +38,19 @@ const buildCard = (f, i) => `
     </div>
   </article>`;
 
+let hasUserSearched = false;
+
 function renderCards(flights) {
   const grid = document.getElementById('flightsGrid'), msg = document.getElementById('resultsMsg');
+  if (!grid) return;
   if (!flights.length) {
-    grid.innerHTML = '<p style="color:rgba(255,255,255,.6)">No matching flights found.</p>';
+    grid.innerHTML = `
+      <div style="text-align: center; padding: 3.5rem 1.5rem; background: #fff; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🔍</div>
+        <h3 style="font-size: 1.25rem; font-weight: 800; color: #1e293b; margin-bottom: 0.4rem;">No Flights Found</h3>
+        <p style="color: #64748b; font-size: 0.95rem; max-width: 420px; margin: 0 auto;">No flights match your search criteria. Try searching for different cities, airports, or dates.</p>
+      </div>
+    `;
     if (msg) msg.textContent = 'No results.';
     return;
   }
@@ -45,7 +59,9 @@ function renderCards(flights) {
 }
 
 // ── Core Filtering ─────────────────────
-function applyFilters(allFlights) {
+function applyFilters(allFlights, forceSearch = false) {
+  if (forceSearch) hasUserSearched = true;
+
   const isFV = document.getElementById('flights-view')?.style.display === 'block';
   const term = getVal('flightSearch').toLowerCase();
   const from = getCode(getVal(isFV && document.getElementById('fsbFrom') ? 'fsbFrom' : 'departureFrom'));
@@ -56,32 +72,56 @@ function applyFilters(allFlights) {
   const stops = getChecked('.stop-filter:checked').map(Number);
   const airlines = getChecked('.airline-filter:checked');
 
+  const hasSearchText = term || from || to;
+
+  // If search fields are empty, prompt user to enter a city/airport
+  if (!hasSearchText) {
+    const grid = document.getElementById('flightsGrid'), msg = document.getElementById('resultsMsg');
+    if (grid) {
+      grid.innerHTML = `
+        <div style="text-align: center; padding: 3.5rem 1.5rem; background: #fff; border-radius: 16px; border: 1px solid rgba(0,0,0,0.06); box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
+          <div style="margin-bottom: 0.75rem;">
+            <img src="../../images/navbar logo.gif" alt="SkyFlow GIF" style="height: 55px; width: auto; object-fit: contain; display: inline-block;">
+          </div>
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #1e293b; margin-bottom: 0.4rem;">Search for a Flight</h3>
+          <p style="color: #64748b; font-size: 0.95rem; max-width: 440px; margin: 0 auto;">Please enter a departure or destination city (e.g. <strong>London</strong>, <strong>Istanbul</strong>, <strong>Riyadh</strong>, <strong>Tokyo</strong>) in the search fields above.</p>
+        </div>
+      `;
+    }
+    if (msg) msg.textContent = 'Please enter origin or destination city.';
+    const titleEl = document.getElementById('flightsTitle');
+    if (titleEl) titleEl.innerHTML = 'SEARCH <span class="flights-title-accent">FLIGHTS</span>';
+    const noteEl = document.getElementById('flightsNote');
+    if (noteEl) noteEl.innerHTML = 'Enter your travel details above to search.';
+    return;
+  }
+
   const results = allFlights.filter(f => {
     const txt = `${f.flightNumber} ${f.airline} ${f.originCity} ${f.destinationCity} ${f.fromAirportCode} ${f.toAirportCode} ${f.status}`.toLowerCase();
     const stp = f.nonStop ? 0 : 1;
     const fare = parseInt(f.fare.replace(/[^0-9]/g, ''), 10) || 0;
     
     return (!term || txt.includes(term)) &&
-           (!from || f.originCity.toLowerCase().includes(from) || f.fromAirportCode.toLowerCase().includes(from)) &&
-           (!to || f.destinationCity.toLowerCase().includes(to) || f.toAirportCode.toLowerCase().includes(to)) &&
+           (!from || f.originCity.toLowerCase().includes(from) || f.fromAirportCode.toLowerCase().includes(from) || from.includes(f.originCity.toLowerCase())) &&
+           (!to || f.destinationCity.toLowerCase().includes(to) || f.toAirportCode.toLowerCase().includes(to) || to.includes(f.destinationCity.toLowerCase())) &&
            (!nonStop || f.nonStop) && (fare <= maxPrice) &&
            (!stops.length || stops.includes(stp) || (stp > 1 && stops.includes(2))) &&
            (!airlines.length || airlines.includes(f.airline));
   });
 
-  const hasFilter = term || from || to || nonStop || stops.length || airlines.length || maxPrice < 5000;
   const titleEl = document.getElementById('flightsTitle');
   if (titleEl) {
-    titleEl.innerHTML = hasFilter 
+    titleEl.innerHTML = results.length 
       ? 'MATCHING <span class="flights-title-accent">FLIGHTS</span>' 
-      : 'AVAILABLE <span class="flights-title-accent">FLIGHTS</span>';
+      : 'NO <span class="flights-title-accent">FLIGHTS</span>';
   }
   const noteEl = document.getElementById('flightsNote');
   if (noteEl) {
-    noteEl.innerHTML = hasFilter 
+    noteEl.innerHTML = results.length
       ? `${results.length} match${results.length === 1 ? '' : 'es'} found.` 
-      : `<span class="animated-note-wrapper"><span class="animated-note">All available flights are shown below.</span><span class="animated-note delay">Discover top deals on domestic & international routes.</span></span>`;
+      : `No flights found matching your search. Try different cities or dates.`;
   }
+
   renderCards(results);
 }
 
@@ -108,7 +148,7 @@ function setupAutocomplete(inputId, dropdownId, airports, allFlights) {
     if (suggestions[idx]) {
       input.value = `${suggestions[idx].city}, ${suggestions[idx].country || ''} (${suggestions[idx].iata})`;
       dropdown.classList.remove('show');
-      applyFilters(allFlights);
+      applyFilters(allFlights, true);
     }
   };
 
@@ -138,7 +178,7 @@ async function init() {
   const af = document.getElementById('airlineFilters');
   if (af) af.innerHTML = [...new Set(allFlights.map(f => f.airline))].sort().map(a => `<label class="checkbox-label"><input type="checkbox" class="airline-filter" value="${a}"> ${a}</label>`).join('');
 
-  renderCards(allFlights);
+  applyFilters(allFlights, false);
   ['departureFrom', 'goingTo', 'fsbFrom', 'fsbTo'].forEach(id => setupAutocomplete(id, id+'Dropdown', allAirports, allFlights));
   
   document.getElementById('searchBtn')?.addEventListener('click', () => {
@@ -146,24 +186,26 @@ async function init() {
       const fsb = document.getElementById('fsb'+f), hero = document.getElementById(f === 'From' ? 'departureFrom' : 'goingTo');
       if (fsb && hero) fsb.value = hero.value;
     });
-    applyFilters(allFlights);
+    applyFilters(allFlights, true);
     if (document.getElementById('hero-view')) document.getElementById('hero-view').style.display = 'none';
     if (document.getElementById('flights-view')) document.getElementById('flights-view').style.display = 'block';
     document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#flights'));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  document.getElementById('fsbSearchBtn')?.addEventListener('click', () => applyFilters(allFlights));
-  document.getElementById('flightSearch')?.addEventListener('input', () => applyFilters(allFlights));
-  document.getElementById('nonStop')?.addEventListener('change', () => applyFilters(allFlights));
+  document.getElementById('fsbSearchBtn')?.addEventListener('click', () => applyFilters(allFlights, true));
+  document.getElementById('fsbFrom')?.addEventListener('input', () => applyFilters(allFlights, true));
+  document.getElementById('fsbTo')?.addEventListener('input', () => applyFilters(allFlights, true));
+  document.getElementById('flightSearch')?.addEventListener('input', () => applyFilters(allFlights, true));
+  document.getElementById('nonStop')?.addEventListener('change', () => applyFilters(allFlights, true));
   document.addEventListener('click', e => !e.target.closest('.flight-field') && document.querySelectorAll('.autocomplete-dropdown').forEach(d => d.classList.remove('show')));
 
-  const swap = (fid, tid) => { const a=document.getElementById(fid), b=document.getElementById(tid); if(a&&b) [a.value, b.value] = [b.value, a.value]; applyFilters(allFlights); };
+  const swap = (fid, tid) => { const a=document.getElementById(fid), b=document.getElementById(tid); if(a&&b) [a.value, b.value] = [b.value, a.value]; applyFilters(allFlights, true); };
   document.getElementById('swapBtn')?.addEventListener('click', () => swap('departureFrom', 'goingTo'));
   document.getElementById('fsbSwap')?.addEventListener('click', () => swap('fsbFrom', 'fsbTo'));
 
-  document.getElementById('priceRange')?.addEventListener('input', e => { const pv = document.getElementById('priceValue'); if(pv) pv.textContent = `$${e.target.value}`; applyFilters(allFlights); });
-  document.addEventListener('change', e => (e.target.matches('.stop-filter, .airline-filter')) && applyFilters(allFlights));
+  document.getElementById('priceRange')?.addEventListener('input', e => { const pv = document.getElementById('priceValue'); if(pv) pv.textContent = `$${e.target.value}`; applyFilters(allFlights, true); });
+  document.addEventListener('change', e => (e.target.matches('.stop-filter, .airline-filter')) && applyFilters(allFlights, true));
 
   document.querySelectorAll('.nav-link').forEach(link => link.addEventListener('click', e => {
     const href = link.getAttribute('href');
@@ -176,7 +218,6 @@ async function init() {
       if (document.getElementById('hero-view')) document.getElementById('hero-view').style.display = isHero ? 'block' : 'none';
       if (document.getElementById('flights-view')) {
         document.getElementById('flights-view').style.display = isHero ? 'none' : 'block';
-        if (!isHero && !getVal('flightSearch') && !getVal('departureFrom') && !getVal('goingTo')) applyFilters(allFlights);
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else if (!href.startsWith('#')) {
