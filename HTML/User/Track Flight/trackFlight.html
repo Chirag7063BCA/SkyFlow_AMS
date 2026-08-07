@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Flight | SkyFlow</title>
+
+  <link rel="stylesheet" href="../../../CSS/User/style.css">
+  <link rel="stylesheet" href="../../../CSS/globalcomp/navbar.css">
+  <link rel="stylesheet" href="../../../CSS/globalcomp/footer.css">
+  <link rel="stylesheet" href="../../../CSS/Landingcomp/hero.css">
+  <link rel="stylesheet" href="../../../CSS/Landingcomp/flights.css">
+  <link rel="stylesheet" href="../../../CSS/User/trackFlight.css">
+</head>
+
+<body>
+  <div id="navbar-container"></div>
+  <main id="app-content">
+    <section class="hero-section track-hero">
+      <div class="hero-content track-hero-content">
+        <p class="hero-eyebrow">Track Your Flight</p>
+        <h1 class="hero-title">
+          KEEP YOUR
+          <span class="animated-text-wrapper">
+            <span class="animated-text hero-title-accent">TRIP</span>
+            <span class="animated-text hero-title-accent delay">FLIGHT</span>
+          </span>
+          ON TRACK
+        </h1>
+        <p class="hero-copy">Live gate updates, departure countdowns, and arrival readiness—all in one place so you can move with confidence.</p>
+
+        <div class="search-card">
+          <div class="keyword-field">
+            <label class="field-label" for="trackFlightNumber">Flight Number</label>
+            <input id="trackFlightNumber" type="text" class="keyword-input" placeholder="e.g. EM100">
+          </div>
+
+          <div class="fields-wrapper">
+            <div class="fields-row">
+              <div class="flight-field">
+                <label class="field-label" for="trackFrom">Departure city / airport</label>
+                <input id="trackFrom" type="text" class="field-control" placeholder="e.g. IST or Istanbul">
+              </div>
+              <div class="flight-field">
+                <label class="field-label" for="trackTo">Arrival city / airport</label>
+                <input id="trackTo" type="text" class="field-control" placeholder="e.g. FCO or Rome">
+              </div>
+              <div class="flight-field">
+                <label class="field-label" for="trackDate">Date (optional)</label>
+                <input id="trackDate" type="date" class="field-control">
+              </div>
+            </div>
+            <button id="trackBtn" class="search-btn">Track Flight</button>
+          </div>
+
+          <p id="trackResult" class="results-msg" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="flights-section track-details-section">
+      <div class="flights-header">
+        <div>
+          <p class="flights-eyebrow">Flight Status</p>
+          <h2 class="flights-title">Latest updates</h2>
+        </div>
+        <p class="flights-note">Search by flight number to view current departure, arrival, and gate details.</p>
+      </div>
+      <div id="statusGrid" class="flights-grid"></div>
+    </section>
+
+    <section class="feature-section">
+      <div class="flights-header">
+        <div>
+          <p class="flights-eyebrow">Why SkyFlow</p>
+          <h2 class="flights-title">Track flights with confidence</h2>
+        </div>
+        <p class="flights-note">Trusted tracking tools built for modern travelers, crew, and airport teams.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3>Real-time flight updates</h3>
+          <p>Get fast updates for departures, arrivals, gate changes, and status alerts in one place.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Easy search experience</h3>
+          <p>Track any flight by number or route using a clean interface designed for speed.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Always stay prepared</h3>
+          <p>Receive clear status indicators so you can plan transfers, pickups, and airport time with ease.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Instant device alerts</h3>
+          <p>Opt-in to receive push or email alerts for gate changes and major delays so you never miss an update.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Accurate gate mapping</h3>
+          <p>See terminal and gate changes visually so you can plan transfers and pick-ups faster.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="info-section">
+      <div class="info-card">
+        <p class="flights-eyebrow">What to expect</p>
+        <h2 class="flights-title">Your flight status in one glance</h2>
+        <p class="hero-copy">Enter a flight number or route, then let SkyFlow fetch the latest departure, arrival, gate, and boarding details in real time.</p>
+      </div>
+    </section>
+
+    <section class="widget-section">
+      <div class="widget-grid">
+        <article class="widget-card">
+          <span class="widget-icon">✈️</span>
+          <h3>Gate notifications</h3>
+          <p>Get instant alerts when gates and terminals change so you can move without the wait.</p>
+        </article>
+        <article class="widget-card">
+          <span class="widget-icon">⏱️</span>
+          <h3>Departure countdown</h3>
+          <p>Watch departure windows update live and plan your airport arrival with precision.</p>
+        </article>
+        <article class="widget-card">
+          <span class="widget-icon">📍</span>
+          <h3>Arrival readiness</h3>
+          <p>Know exactly when your flight lands and have your pickup or transfer ready.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="flights-section popular-routes-section">
+      <div class="flights-header">
+        <div>
+          <p class="flights-eyebrow">Popular routes</p>
+          <h2 class="flights-title">Most tracked journeys</h2>
+        </div>
+        <p class="flights-note">Explore common routes and see how flight status updates help passengers stay ready.</p>
+      </div>
+      <div class="flights-grid">
+        <!-- popular route cards (kept as static examples) -->
+      </div>
+    </section>
+
+    <section class="feature-section">
+      <div class="flights-header">
+        <div>
+          <p class="flights-eyebrow">Travel essentials</p>
+          <h2 class="flights-title">Plan ahead with our tips</h2>
+        </div>
+        <p class="flights-note">Clear guidance to help you arrive on time, breeze through security, and adapt to schedule changes.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3>Save your search</h3>
+          <p>Bookmark your flight number and route for quick access to updates before you head to the airport.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Check gates early</h3>
+          <p>Confirm terminal and gate changes as soon as they appear so you can move through the airport with confidence.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Prepare for delays</h3>
+          <p>Know which flights are on time, boarding, or delayed so you can manage transfers and ride pickups smoothly.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="info-section">
+      <div class="info-card">
+        <p class="flights-eyebrow">Need help?</p>
+        <h2 class="flights-title">Flight tracking made simple</h2>
+        <p class="hero-copy">Save your search results, check arrival gates, and verify your estimated arrival time before leaving for the airport. If your flight changes, SkyFlow helps you stay ready.</p>
+        <ul class="help-list">
+          <li>Search by flight number for an instant status update.</li>
+          <li>Use route search when you don’t know the exact flight code.</li>
+          <li>Check the latest gate, terminal, and boarding status before departure.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+  <div id="footer-container"></div>
+
+  <script>
+    async function loadComponent(url, containerId) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Failed to load ${url}`);
+        const html = await response.text();
+        document.getElementById(containerId).innerHTML = html;
+      } catch (error) {
+        console.error('Error loading component:', error);
+      }
+    }
+
+    function patchNavLinks() {
+      document.querySelectorAll('.nav-link[data-route]').forEach(link => {
+        const route = link.dataset.route;
+        if (route === 'home') link.href = '../index.html';
+        if (route === 'flights') link.href = '../index.html#flights';
+        if (route === 'track') link.href = 'trackFlight.html';
+        if (route === 'bookings') link.href = '../mybookings/bookings.html';
+      });
+    }
+
+    function activateNav(route) {
+      const activeLink = document.querySelector(`.nav-link[data-route="${route}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+
+    async function initApp() {
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+
+      await loadComponent('../globalcomp/navbar.html', 'navbar-container');
+      patchNavLinks();
+      activateNav('track');
+      await loadComponent('../globalcomp/footer.html', 'footer-container');
+
+      const trackHtml = `
+        <section class="hero-section track-hero">
+          <div class="hero-content track-hero-content">
+            <p class="hero-eyebrow">Track Your Flight</p>
+            <h1 class="hero-title">
+              KEEP YOUR
+              <span class="animated-text-wrapper">
+                <span class="animated-text hero-title-accent">TRIP</span>
+                <span class="animated-text hero-title-accent delay">FLIGHT</span>
+              </span>
+              ON TRACK
+            </h1>
+            <p class="hero-copy">Live gate updates, departure countdowns, and arrival readiness—all in one place so you can move with confidence.</p>
+
+            <div class="search-card">
+              <div class="keyword-field">
+                <label class="field-label" for="trackFlightNumber">Flight Number</label>
+                <input id="trackFlightNumber" type="text" class="keyword-input" placeholder="e.g. EM100">
+              </div>
+
+              <div class="fields-wrapper">
+                <div class="fields-row">
+                  <div class="flight-field">
+                    <label class="field-label" for="trackFrom">Departure city / airport</label>
+                    <input id="trackFrom" type="text" class="field-control" placeholder="e.g. IST or Istanbul">
+                  </div>
+                  <div class="flight-field">
+                    <label class="field-label" for="trackTo">Arrival city / airport</label>
+                    <input id="trackTo" type="text" class="field-control" placeholder="e.g. FCO or Rome">
+                  </div>
+                  <div class="flight-field">
+                    <label class="field-label" for="trackDate">Date (optional)</label>
+                    <input id="trackDate" type="date" class="field-control">
+                  </div>
+                </div>
+                <button id="trackBtn" class="search-btn">Track Flight</button>
+              </div>
+
+              <p id="trackResult" class="results-msg" aria-live="polite"></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="flights-section track-details-section">
+          <div class="flights-header">
+            <div>
+              <p class="flights-eyebrow">Flight Status</p>
+              <h2 class="flights-title">Latest updates</h2>
+            </div>
+            <p class="flights-note">Search by flight number to view current departure, arrival, and gate details.</p>
+          </div>
+          <div id="statusGrid" class="flights-grid"></div>
+        </section>
+
+        <section class="feature-section">
+          <div class="flights-header">
+            <div>
+              <p class="flights-eyebrow">Why SkyFlow</p>
+              <h2 class="flights-title">Track flights with confidence</h2>
+            </div>
+            <p class="flights-note">Trusted tracking tools built for modern travelers, crew, and airport teams.</p>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>Real-time flight updates</h3>
+              <p>Get fast updates for departures, arrivals, gate changes, and status alerts in one place.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Easy search experience</h3>
+              <p>Track any flight by number or route using a clean interface designed for speed.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Always stay prepared</h3>
+              <p>Receive clear status indicators so you can plan transfers, pickups, and airport time with ease.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Instant device alerts</h3>
+              <p>Opt-in to receive push or email alerts for gate changes and major delays so you never miss an update.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Accurate gate mapping</h3>
+              <p>See terminal and gate changes visually so you can plan transfers and pick-ups faster.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="info-section">
+          <div class="info-card">
+            <p class="flights-eyebrow">What to expect</p>
+            <h2 class="flights-title">Your flight status in one glance</h2>
+            <p class="hero-copy">Enter a flight number or route, then let SkyFlow fetch the latest departure, arrival, gate, and boarding details in real time.</p>
+          </div>
+        </section>
+
+        <section class="widget-section">
+          <div class="widget-grid">
+            <article class="widget-card">
+              <span class="widget-icon">✈️</span>
+              <h3>Gate notifications</h3>
+              <p>Get instant alerts when gates and terminals change so you can move without the wait.</p>
+            </article>
+            <article class="widget-card">
+              <span class="widget-icon">⏱️</span>
+              <h3>Departure countdown</h3>
+              <p>Watch departure windows update live and plan your airport arrival with precision.</p>
+            </article>
+            <article class="widget-card">
+              <span class="widget-icon">📍</span>
+              <h3>Arrival readiness</h3>
+              <p>Know exactly when your flight lands and have your pickup or transfer ready.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="flights-section popular-routes-section">
+          <div class="flights-header">
+            <div>
+              <p class="flights-eyebrow">Popular routes</p>
+              <h2 class="flights-title">Most tracked journeys</h2>
+            </div>
+            <p class="flights-note">Explore common routes and see how flight status updates help passengers stay ready.</p>
+          </div>
+          <div class="flights-grid">
+            <article class="flight-card">
+              <div class="card-top">
+                <div>
+                  <p class="card-airline">SkyFlow Alerts</p>
+                  <p class="card-route">Istanbul (IST) → Rome (FCO)</p>
+                </div>
+                <div class="card-time">
+                  <strong>06:40 → 08:20</strong>
+                  <span>2h 40m • On time</span>
+                </div>
+              </div>
+              <div class="card-meta">
+                <span class="pill on-time">On time</span>
+                <span class="pill">EM100</span>
+                <span class="pill">Non-stop</span>
+                <span class="pill">$257</span>
+              </div>
+            </article>
+            <article class="flight-card">
+              <div class="card-top">
+                <div>
+                  <p class="card-airline">SkyFlow Alerts</p>
+                  <p class="card-route">New York (JFK) → London (LHR)</p>
+                </div>
+                <div class="card-time">
+                  <strong>19:10 → 07:05</strong>
+                  <span>7h 55m • Boarding</span>
+                </div>
+              </div>
+              <div class="card-meta">
+                <span class="pill boarding">Boarding</span>
+                <span class="pill">EM280</span>
+                <span class="pill">Non-stop</span>
+                <span class="pill">$1,120</span>
+              </div>
+            </article>
+            <article class="flight-card">
+              <div class="card-top">
+                <div>
+                  <p class="card-airline">SkyFlow Alerts</p>
+                  <p class="card-route">Dubai (DXB) → Singapore (SIN)</p>
+                </div>
+                <div class="card-time">
+                  <strong>09:30 → 20:25</strong>
+                  <span>6h 55m • Scheduled</span>
+                </div>
+              </div>
+              <div class="card-meta">
+                <span class="pill scheduled">Scheduled</span>
+                <span class="pill">EM512</span>
+                <span class="pill">Non-stop</span>
+                <span class="pill">$685</span>
+              </div>
+            </article>
+            <article class="flight-card">
+              <div class="card-top">
+                <div>
+                  <p class="card-airline">SkyFlow Alerts</p>
+                  <p class="card-route">Los Angeles (LAX) → Tokyo (HND)</p>
+                </div>
+                <div class="card-time">
+                  <strong>12:20 → 17:05</strong>
+                  <span>10h 45m • Delayed</span>
+                </div>
+              </div>
+              <div class="card-meta">
+                <span class="pill boarding">Delayed</span>
+                <span class="pill">EM904</span>
+                <span class="pill">Non-stop</span>
+                <span class="pill">$930</span>
+              </div>
+            </article>
+            <article class="flight-card">
+              <div class="card-top">
+                <div>
+                  <p class="card-airline">SkyFlow Alerts</p>
+                  <p class="card-route">Paris (CDG) → Dubai (DXB)</p>
+                </div>
+                <div class="card-time">
+                  <strong>15:55 → 00:10</strong>
+                  <span>6h 15m • On time</span>
+                </div>
+              </div>
+              <div class="card-meta">
+                <span class="pill on-time">On time</span>
+                <span class="pill">EM216</span>
+                <span class="pill">Non-stop</span>
+                <span class="pill">$780</span>
+              </div>
+            </article>
+            <article class="flight-card">
+              <div class="card-top">
+                <div>
+                  <p class="card-airline">SkyFlow Alerts</p>
+                  <p class="card-route">Mumbai (BOM) → Singapore (SIN)</p>
+                </div>
+                <div class="card-time">
+                  <strong>08:00 → 14:20</strong>
+                  <span>5h 50m • Boarding</span>
+                </div>
+              </div>
+              <div class="card-meta">
+                <span class="pill boarding">Boarding</span>
+                <span class="pill">EM412</span>
+                <span class="pill">Non-stop</span>
+                <span class="pill">$620</span>
+              </div>
+            </article>
+            <article class="flight-card">
+              <div class="card-top">
+                <div>
+                  <p class="card-airline">SkyFlow Alerts</p>
+                  <p class="card-route">Singapore (SIN) → Sydney (SYD)</p>
+                </div>
+                <div class="card-time">
+                  <strong>22:30 → 08:15</strong>
+                  <span>7h 45m • Scheduled</span>
+                </div>
+              </div>
+              <div class="card-meta">
+                <span class="pill scheduled">Scheduled</span>
+                <span class="pill">EM678</span>
+                <span class="pill">Non-stop</span>
+                <span class="pill">$910</span>
+              </div>
+            </article>
+            <article class="flight-card">
+              <div class="card-top">
+                <div>
+                  <p class="card-airline">SkyFlow Alerts</p>
+                  <p class="card-route">Berlin (BER) → Amsterdam (AMS)</p>
+                </div>
+                <div class="card-time">
+                  <strong>10:10 → 11:35</strong>
+                  <span>1h 25m • On time</span>
+                </div>
+              </div>
+              <div class="card-meta">
+                <span class="pill on-time">On time</span>
+                <span class="pill">EM732</span>
+                <span class="pill">Non-stop</span>
+                <span class="pill">$310</span>
+              </div>
+            </article>
+            <article class="flight-card">
+              <div class="card-top">
+                <div>
+                  <p class="card-airline">SkyFlow Alerts</p>
+                  <p class="card-route">San Francisco (SFO) → Honolulu (HNL)</p>
+                </div>
+                <div class="card-time">
+                  <strong>07:45 → 11:20</strong>
+                  <span>5h 35m • Boarding</span>
+                </div>
+              </div>
+              <div class="card-meta">
+                <span class="pill boarding">Boarding</span>
+                <span class="pill">EM825</span>
+                <span class="pill">Non-stop</span>
+                <span class="pill">$710</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="feature-section">
+          <div class="flights-header">
+            <div>
+              <p class="flights-eyebrow">Travel essentials</p>
+              <h2 class="flights-title">Plan ahead with our tips</h2>
+            </div>
+            <p class="flights-note">Clear guidance to help you arrive on time, breeze through security, and adapt to schedule changes.</p>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>Save your search</h3>
+              <p>Bookmark your flight number and route for quick access to updates before you head to the airport.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Check gates early</h3>
+              <p>Confirm terminal and gate changes as soon as they appear so you can move through the airport with confidence.</p>
+            </article>
+            <article class="feature-card">
+              <h3>Prepare for delays</h3>
+              <p>Know which flights are on time, boarding, or delayed so you can manage transfers and ride pickups smoothly.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="info-section">
+          <div class="info-card">
+            <p class="flights-eyebrow">Need help?</p>
+            <h2 class="flights-title">Flight tracking made simple</h2>
+            <p class="hero-copy">Save your search results, check arrival gates, and verify your estimated arrival time before leaving for the airport. If your flight changes, SkyFlow helps you stay ready.</p>
+            <ul class="help-list">
+              <li>Search by flight number for an instant status update.</li>
+              <li>Use route search when you don’t know the exact flight code.</li>
+              <li>Check the latest gate, terminal, and boarding status before departure.</li>
+            </ul>
+          </div>
+        </section>
+      `;
+
+      document.getElementById('app-content').innerHTML = trackHtml;
+
+      const trackBtn = document.getElementById('trackBtn');
+      const trackResult = document.getElementById('trackResult');
+      const statusGrid = document.getElementById('statusGrid');
+
+      function renderStatusCard(flight) {
+        const statusClass = flight.status.toLowerCase().replace(/\s+/g, '-');
+        return `
+          <article class="flight-card">
+            <div class="card-top">
+              <div>
+                <p class="card-airline">${flight.airline}</p>
+                <p class="card-route">${flight.originCity} (${flight.fromAirportCode}) → ${flight.destinationCity} (${flight.toAirportCode})</p>
+              </div>
+              <div class="card-time">
+                <strong>${flight.departureTime} → ${flight.arrivalTime}</strong>
+                <span>${flight.duration}</span>
+              </div>
+            </div>
+            <div class="card-meta">
+              <span class="pill ${statusClass}">${flight.status}</span>
+              <span class="pill">Flight ${flight.flightNumber}</span>
+              <span class="pill">${flight.nonStop ? 'Non-stop' : '1 stop'}</span>
+              <span class="pill">${flight.fare}</span>
+            </div>
+          </article>
+        `;
+      }
+
+      async function fetchFlightData() {
+        try {
+          const response = await fetch('../../../Data/flights.json');
+          if (!response.ok) throw new Error('Unable to load flight data');
+          return await response.json();
+        } catch (error) {
+          console.error(error);
+          return [];
+        }
+      }
+
+      const flights = await fetchFlightData();
+
+      function searchFlight() {
+        const flightNumber = document.getElementById('trackFlightNumber').value.trim().toUpperCase();
+        const fromValue = document.getElementById('trackFrom').value.trim().toLowerCase();
+        const toValue = document.getElementById('trackTo').value.trim().toLowerCase();
+        const dateValue = document.getElementById('trackDate').value;
+
+        if (!flightNumber && !fromValue && !toValue) {
+          trackResult.textContent = 'Please enter a flight number or departure/arrival city to track.';
+          statusGrid.innerHTML = '';
+          return;
+        }
+
+        const matchedFlights = flights.filter(flight => {
+          const fromMatch = fromValue ? `${flight.originCity} ${flight.fromAirportCode}`.toLowerCase().includes(fromValue) : true;
+          const toMatch = toValue ? `${flight.destinationCity} ${flight.toAirportCode}`.toLowerCase().includes(toValue) : true;
+          const flightMatch = flightNumber ? flight.flightNumber.toUpperCase().includes(flightNumber) : true;
+
+          return flightMatch && fromMatch && toMatch;
+        });
+
+        if (!matchedFlights.length) {
+          trackResult.innerHTML = '<p class="results-msg">No flight found. Try another number or route.</p>';
+          statusGrid.innerHTML = '';
+          return;
+        }
+
+        trackResult.innerHTML = `<p class="results-msg">Showing ${matchedFlights.length} matching flight${matchedFlights.length > 1 ? 's' : ''}.</p>`;
+        statusGrid.innerHTML = matchedFlights.map(renderStatusCard).join('');
+      }
+
+      trackBtn.addEventListener('click', searchFlight);
+      document.getElementById('trackFlightNumber').addEventListener('keydown', event => {
+        if (event.key === 'Enter') searchFlight();
+      });
+      document.getElementById('trackFrom').addEventListener('keydown', event => {
+        if (event.key === 'Enter') searchFlight();
+      });
+      document.getElementById('trackTo').addEventListener('keydown', event => {
+        if (event.key === 'Enter') searchFlight();
+      });
+      document.getElementById('trackDate').addEventListener('keydown', event => {
+        if (event.key === 'Enter') searchFlight();
+      });
+
+      // Fade the hero overlay from blue to white while scrolling
+      const heroEl = document.querySelector('.track-hero');
+      if (heroEl) {
+        let heroHeight = heroEl.offsetHeight;
+        const updateHeroFade = () => {
+          const sc = window.scrollY || document.documentElement.scrollTop;
+          const ratio = Math.min(sc / (heroHeight * 0.7), 1);
+          document.documentElement.style.setProperty('--hero-fade', String(1 - ratio));
+        };
+        updateHeroFade();
+        window.addEventListener('scroll', updateHeroFade, { passive: true });
+        window.addEventListener('resize', () => { heroHeight = heroEl.offsetHeight; updateHeroFade(); });
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+  <script src="../../../Javascript/User/trackFlight.js"></script>
+</body>
+</html>
