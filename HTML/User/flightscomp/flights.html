@@ -34,24 +34,27 @@
         </div>
 
         <!-- Depart -->
-        <div class="fsb-card">
+        <div class="fsb-card flight-field" style="position: relative;">
           <label for="fsbDepart" class="fsb-card-label">DEPART</label>
-          <input type="text" id="fsbDepart" class="fsb-card-input" value="Thu, 6 Aug 26">
+          <input type="text" id="fsbDepart" class="fsb-card-input" value="Thu, 6 Aug 26" readonly style="cursor: pointer;">
+          <div id="fsbDepartDropdown" class="autocomplete-dropdown calendar-dropdown"></div>
         </div>
 
         <!-- Return -->
-        <div class="fsb-card">
+        <div class="fsb-card flight-field" style="position: relative;">
           <div class="fsb-card-header">
             <label for="fsbReturn" class="fsb-card-label">RETURN</label>
-            <button type="button" class="fsb-card-clear" aria-label="Clear return">✕</button>
+            <button type="button" class="fsb-card-clear" id="fsbReturnClear" aria-label="Clear return">✕</button>
           </div>
-          <input type="text" id="fsbReturn" class="fsb-card-input" value="Fri, 7 Aug 26">
+          <input type="text" id="fsbReturn" class="fsb-card-input" value="Fri, 7 Aug 26" readonly style="cursor: pointer;">
+          <div id="fsbReturnDropdown" class="autocomplete-dropdown calendar-dropdown"></div>
         </div>
 
         <!-- Travellers -->
-        <div class="fsb-card">
+        <div class="fsb-card flight-field" style="position: relative;">
           <label for="fsbTravellers" class="fsb-card-label">TRAVELLERS</label>
-          <input type="text" id="fsbTravellers" class="fsb-card-input" value="1 Adult">
+          <input type="text" id="fsbTravellers" class="fsb-card-input" value="1 Adult" readonly style="cursor: pointer;">
+          <div id="fsbTravellersDropdown" class="autocomplete-dropdown travellers-dropdown"></div>
         </div>
 
         <!-- Cabin Class -->
