@@ -2,290 +2,252 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Bookings - Flight Booking</title>
-    <link rel="stylesheet" href="../../../CSS/User/style.css">
-    <link rel="stylesheet" href="../../../CSS/mybookings/mybookings.css">
-    <link rel="stylesheet" href="../../../CSS/globalcomp/navbar.css">
-    <link rel="stylesheet" href="../../../CSS/globalcomp/footer.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Bookings - SkyFlow</title>
+
+  <link rel="stylesheet" href="../../../CSS/User/style.css">
+  <link rel="stylesheet" href="../../../CSS/globalcomp/navbar.css">
+  <link rel="stylesheet" href="../../../CSS/Landingcomp/hero.css">
+  <link rel="stylesheet" href="../../../CSS/globalcomp/footer.css">
+  <link rel="stylesheet" href="../../../CSS/mybookings/mybooking.css">
 </head>
 
 <body>
+  <!-- Navbar -->
+  <div id="navbar-container"></div>
 
-    <!-- Dynamic Component Containers -->
-    <div id="navbar-container"></div>
+  <main id="app-content">
+    <section class="hero-section" style="min-height: 100vh; height: auto; padding-top: 120px; padding-bottom: 60px;">
+      <div class="hero-content">
 
-    <!-- Main Content Area -->
-    <div class="bookings-container">
-        <div class="premium-header-section">
-            <h1 class="premium-title">
-                MY
-                <span class="animated-text-wrapper">
-                    <span class="animated-text title-accent">BOOKINGS</span>
-                    <span class="animated-text title-accent delay">FLIGHTS</span>
-                </span>
-            </h1>
-            <p class="premium-subtitle">Manage your booked flight tickets</p>
-        </div>
+        <h1 class="hero-title"
+          style="justify-content: flex-start; text-align: left; margin-bottom: 40px; font-size: clamp(2.5rem, 5vw, 4rem); color: white;">
+          <a href="../index.html"
+            style="text-decoration: none; color: inherit; display: flex; align-items: center; justify-content: flex-start; cursor: pointer;"
+            title="Back to Home">
+            MY
+            <span class="animated-text-wrapper" style="margin: 0 10px;">
+              <span class="animated-text hero-title-accent">BOOKINGS</span>
+              <span class="animated-text hero-title-accent delay">FLIGHTS</span>
+            </span>
+          </a>
+        </h1>
 
-        <div class="premium-controls">
-            <div class="premium-search-box">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
-                <input type="text" placeholder="Search by Booking ID or destination">
+        <div class="mb-wrapper">
+          <div class="mb-top-row">
+            <div class="mb-title-area">
+
+              <p class="mb-subtitle">View and manage all your flight bookings</p>
+              <div class="mb-filters">
+                <button class="mb-filter active">🎫 All Bookings</button>
+                <button class="mb-filter">✈ Upcoming</button>
+                <button class="mb-filter">✔ Completed</button>
+                <button class="mb-filter">❌ Cancelled</button>
+              </div>
             </div>
-            <button class="premium-filter-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="4" y1="21" x2="4" y2="14"></line>
-                    <line x1="4" y1="10" x2="4" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="12"></line>
-                    <line x1="12" y1="8" x2="12" y2="3"></line>
-                    <line x1="20" y1="21" x2="20" y2="16"></line>
-                    <line x1="20" y1="12" x2="20" y2="3"></line>
-                    <line x1="1" y1="14" x2="7" y2="14"></line>
-                    <line x1="9" y1="8" x2="15" y2="8"></line>
-                    <line x1="17" y1="16" x2="23" y2="16"></line>
-                </svg>
-                Filter / Sort
-            </button>
-        </div>
+            <div class="mb-promo-card">
+              <div>
+                <p class="mb-promo-title">Add your trip to calendar</p>
+                <p class="mb-promo-sub">Never miss your flight again</p>
+                <a href="#" class="mb-promo-link">Add Now ➔</a>
+              </div>
+              <span class="mb-promo-icon">📅</span>
+            </div>
+          </div>
 
-        <div class="premium-tabs">
-            <button class="premium-tab active">Upcoming</button>
-            <button class="premium-tab">Completed</button>
-            <button class="premium-tab">Cancelled</button>
-        </div>
+          <div class="mb-summary-grid">
+            <div class="mb-stat-card"><span class="mb-icon blue">🎫</span>
+              <div><b class="mb-stat-num">6</b><br><span class="mb-stat-label">Total Bookings</span></div>
+            </div>
+            <div class="mb-stat-card"><span class="mb-icon green">✈</span>
+              <div><b class="mb-stat-num">4</b><br><span class="mb-stat-label">Upcoming</span></div>
+            </div>
+            <div class="mb-stat-card"><span class="mb-icon orange">✔</span>
+              <div><b class="mb-stat-num">1</b><br><span class="mb-stat-label">Completed</span></div>
+            </div>
+            <div class="mb-stat-card"><span class="mb-icon red">❌</span>
+              <div><b class="mb-stat-num">1</b><br><span class="mb-stat-label">Cancelled</span></div>
+            </div>
+          </div>
 
-        <div class="premium-booking-list">
-            <div class="booking-ticket-group">
-                <!-- Confirmed Ticket -->
-                <div class="premium-ticket-card">
-                <!-- Decorative gradient bg behind card -->
-                <div class="ticket-glow"></div>
-                
-                <div class="ticket-content">
-                    <div class="ticket-top">
-                        <div class="airline-info">
-                            <div class="airline-logo-box">
-                                <span class="airline-icon">✈</span>
-                            </div>
-                            <div class="airline-details">
-                                <span class="airline-name">SkyFlow Airlines</span>
-                                <span class="flight-num">SF-782</span>
-                            </div>
-                        </div>
-                        <div class="ticket-status-box">
-                            <span class="booking-ref">ID: #FL-29831</span>
-                            <span class="badge badge-confirmed">Confirmed</span>
-                        </div>
-                    </div>
-
-                    <div class="ticket-middle">
-                        <div class="flight-point origin">
-                            <span class="airport-code">DEL</span>
-                            <span class="city-name">New Delhi</span>
-                            <span class="flight-time">08:30 AM</span>
-                            <span class="flight-date">12 Oct 2026</span>
-                        </div>
-                        
-                        <div class="flight-timeline">
-                            <div class="duration-text">2h 15m</div>
-                            <div class="timeline-line">
-                                <div class="timeline-plane">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M21,16V14L13,9V3.5A1.5,1.5 0 0,0 11.5,2A1.5,1.5 0 0,0 10,3.5V9L2,14V16L10,13.5V19L8,20.5V22L11.5,21L15,22V20.5L13,19V13.5L21,16Z"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="timeline-type">Non-stop</div>
-                        </div>
-
-                        <div class="flight-point destination">
-                            <span class="airport-code">BOM</span>
-                            <span class="city-name">Mumbai</span>
-                            <span class="flight-time">10:45 AM</span>
-                            <span class="flight-date">12 Oct 2026</span>
-                        </div>
-                    </div>
-
-                    <div class="ticket-details-grid">
-                        <div class="detail-box">
-                            <span class="detail-label">Passenger</span>
-                            <span class="detail-val">Aman Kumar</span>
-                        </div>
-                        <div class="detail-box">
-                            <span class="detail-label">Seat</span>
-                            <span class="detail-val">12A</span>
-                        </div>
-                        <div class="detail-box">
-                            <span class="detail-label">Gate</span>
-                            <span class="detail-val">G4</span>
-                        </div>
-                        <div class="detail-box">
-                            <span class="detail-label">Boarding Time</span>
-                            <span class="detail-val text-accent">07:45 AM</span>
-                        </div>
-                    </div>
-
-                    <div class="ticket-bottom">
-                        <div class="boarding-qr">
-                            <div class="qr-placeholder">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                    <path d="M7 7h.01M17 7h.01M7 17h.01M17 17h.01M7 12h10M12 7v10"></path>
-                                </svg>
-                            </div>
-                            <div class="boarding-countdown">
-                                <span class="countdown-label">Boarding in</span>
-                                <span class="countdown-time">1h 15m</span>
-                            </div>
-                        </div>
-
-                        <div class="ticket-actions">
-                            <button class="btn-outline">Download PDF</button>
-                            <button class="btn-outline">View E-Ticket</button>
-                            <button class="btn-primary">Web Check-in</button>
-                        </div>
-                    </div>
+          <div class="mb-tickets">
+            <div class="mb-ticket-card border-blue">
+              <div class="mb-t-left">
+                <div class="mb-t-icon blue">✈</div>
+                <div class="mb-t-badge green">CONFIRMED ✔</div>
+                <div class="mb-t-pnr"><span>PNR</span><b>AI4521</b></div>
+                <div class="mb-t-class">Economy</div>
+              </div>
+              <div class="mb-t-center">
+                <div class="mb-t-route">
+                  <div class="mb-t-city"><b>DEL</b><span>Delhi</span><small>Indira Gandhi Intl. Airport</small></div>
+                  <div class="mb-t-path">
+                    <div class="mb-t-line"></div><span class="mb-t-plane">✈</span>
+                  </div>
+                  <div class="mb-t-city right"><b>BOM</b><span>Mumbai</span><small>Chhatrapati Shivaji Intl.
+                      Airport</small></div>
                 </div>
-            </div>
-
-            <!-- Mobile Boarding Pass Section -->
-            <div class="premium-boarding-pass-card">
-                <div class="boarding-pass-glow"></div>
-                <div class="boarding-pass-container">
-                    <!-- Left Side: QR Code Area -->
-                    <div class="boarding-pass-qr-side">
-                        <div class="qr-pulse-container">
-                            <div class="qr-pulse-ring"></div>
-                            <div class="qr-code-box">
-                                <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#0F2640" stroke-width="1.5">
-                                    <!-- Simple styled QR representation -->
-                                    <rect x="2" y="2" width="6" height="6" fill="#0F2640"></rect>
-                                    <rect x="16" y="2" width="6" height="6" fill="#0F2640"></rect>
-                                    <rect x="2" y="16" width="6" height="6" fill="#0F2640"></rect>
-                                    <rect x="4" y="4" width="2" height="2" fill="#fff"></rect>
-                                    <rect x="18" y="4" width="2" height="2" fill="#fff"></rect>
-                                    <rect x="4" y="18" width="2" height="2" fill="#fff"></rect>
-                                    <path d="M10 2h2v4h-2V2zm0 6h4v2h-4V8zm0 4h2v4h-2v-4zm4-10h2v2h-2V2zm0 12h2v2h-2v-2zm-4 6h6v2h-6v-2zm12-4h2v6h-2v-6zm-4-4h2v2h-2v-2zm4 0h2v2h-2v-2zm-4 4h2v2h-2v-2zm6-12h2v4h-2V4zm-2 4h2v2h-2V8z" fill="#0F2640"></path>
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="boarding-status-badge">
-                            <span class="pulse-dot"></span>
-                            Ready for Boarding
-                        </div>
-                    </div>
-
-                    <!-- Dashed Divider Line -->
-                    <div class="boarding-pass-divider"></div>
-
-                    <!-- Right Side: Details Area -->
-                    <div class="boarding-pass-details-side">
-                        <div class="boarding-pass-header">
-                            <div>
-                                <h3 class="boarding-pass-title">Mobile Boarding Pass</h3>
-                                <p class="boarding-pass-subtitle">Scan this QR code at security and boarding gate</p>
-                            </div>
-                            <div class="boarding-route-display">
-                                DEL <span class="route-arrow">→</span> BOM
-                            </div>
-                        </div>
-
-                        <div class="boarding-details-grid">
-                            <div class="b-detail">
-                                <span class="b-label">Passenger</span>
-                                <span class="b-val">Aman Kumar</span>
-                            </div>
-                            <div class="b-detail">
-                                <span class="b-label">Flight</span>
-                                <span class="b-val text-blue">SF-782</span>
-                            </div>
-                            <div class="b-detail">
-                                <span class="b-label">Seat</span>
-                                <span class="b-val">12A</span>
-                            </div>
-                            <div class="b-detail">
-                                <span class="b-label">Gate</span>
-                                <span class="b-val">G4</span>
-                            </div>
-                            <div class="b-detail">
-                                <span class="b-label">Terminal</span>
-                                <span class="b-val">T3</span>
-                            </div>
-                            <div class="b-detail">
-                                <span class="b-label">Boarding Time</span>
-                                <span class="b-val text-red">07:45 AM</span>
-                            </div>
-                        </div>
-
-                        <div class="boarding-pass-note">
-                            Please arrive at the gate at least 30 minutes before departure
-                        </div>
-
-                        <div class="boarding-pass-actions">
-                            <button class="btn-boarding-outline">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                Download Pass
-                            </button>
-                            <button class="btn-boarding-outline">Add to Wallet</button>
-                            <button class="btn-boarding-primary">Share Pass</button>
-                        </div>
-                    </div>
+                <div class="mb-t-details">
+                  <div><span class="mb-icon-s">📅</span>
+                    <div><b>12 Aug 2026</b><span>Sat, 08:30 AM</span></div>
+                  </div>
+                  <div><span class="mb-icon-s">⏰</span>
+                    <div><b>2h 15m</b><span>Non-stop</span></div>
+                  </div>
+                  <div><span class="mb-icon-s">✈</span>
+                    <div><b>AI 4521</b><span>Air India</span></div>
+                  </div>
+                  <div><span class="mb-icon-s">🪑</span>
+                    <div><b>14A</b><span>Window</span></div>
+                  </div>
                 </div>
+                <div class="mb-t-footer">
+                  <div><span>⏰ Boarding Time</span><b>07:45 AM</b></div>
+                  <div><span>🏛 Terminal</span><b>T3</b></div>
+                  <div><span>👤 Passenger</span><b>Aman Sharma</b></div>
+                </div>
+              </div>
+              <div class="mb-t-right">
+                <button class="mb-btn primary">🎫 View Ticket</button>
+                <button class="mb-btn">📥 Download</button>
+                <button class="mb-btn outline">💬 More</button>
+              </div>
             </div>
+
+            <div class="mb-ticket-card border-purple">
+              <div class="mb-t-left">
+                <div class="mb-t-icon purple">✈</div>
+                <div class="mb-t-badge green">CONFIRMED ✔</div>
+                <div class="mb-t-pnr"><span>PNR</span><b>AI7834</b></div>
+                <div class="mb-t-class">Economy</div>
+              </div>
+              <div class="mb-t-center">
+                <div class="mb-t-route">
+                  <div class="mb-t-city"><b>DEL</b><span>Delhi</span><small>Indira Gandhi Intl. Airport</small></div>
+                  <div class="mb-t-path">
+                    <div class="mb-t-line"></div><span class="mb-t-plane purple">✈</span>
+                  </div>
+                  <div class="mb-t-city right"><b>BLR</b><span>Bengaluru</span><small>Kempegowda Intl. Airport</small>
+                  </div>
+                </div>
+                <div class="mb-t-details">
+                  <div><span class="mb-icon-s">📅</span>
+                    <div><b>18 Aug 2026</b><span>Fri, 06:20 PM</span></div>
+                  </div>
+                  <div><span class="mb-icon-s">⏰</span>
+                    <div><b>2h 40m</b><span>Non-stop</span></div>
+                  </div>
+                  <div><span class="mb-icon-s">✈</span>
+                    <div><b>AI 7834</b><span>Air India</span></div>
+                  </div>
+                  <div><span class="mb-icon-s">🪑</span>
+                    <div><b>9C</b><span>Aisle</span></div>
+                  </div>
+                </div>
+                <div class="mb-t-footer">
+                  <div><span>⏰ Boarding Time</span><b>05:30 PM</b></div>
+                  <div><span>🏛 Terminal</span><b>T1</b></div>
+                  <div><span>👤 Passenger</span><b>Aman Sharma</b></div>
+                </div>
+              </div>
+              <div class="mb-t-right">
+                <button class="mb-btn purple-btn">🎫 View Ticket</button>
+                <button class="mb-btn">📥 Download</button>
+                <button class="mb-btn outline">💬 More</button>
+              </div>
+            </div>
+
+            <div class="mb-ticket-card border-orange">
+              <div class="mb-t-left">
+                <div class="mb-t-icon orange">✈</div>
+                <div class="mb-t-badge orange-text">PENDING ⏰</div>
+                <div class="mb-t-pnr"><span>PNR</span><b>AI1198</b></div>
+                <div class="mb-t-class">Economy</div>
+              </div>
+              <div class="mb-t-center">
+                <div class="mb-t-route">
+                  <div class="mb-t-city"><b>BOM</b><span>Mumbai</span><small>Chhatrapati Shivaji Intl. Airport</small>
+                  </div>
+                  <div class="mb-t-path">
+                    <div class="mb-t-line"></div><span class="mb-t-plane orange">✈</span>
+                  </div>
+                  <div class="mb-t-city right"><b>GOI</b><span>Goa (Dabolim)</span><small>Goa Intl. Airport</small>
+                  </div>
+                </div>
+                <div class="mb-t-details">
+                  <div><span class="mb-icon-s">📅</span>
+                    <div><b>24 Aug 2026</b><span>Thu, 09:10 AM</span></div>
+                  </div>
+                  <div><span class="mb-icon-s">⏰</span>
+                    <div><b>1h 20m</b><span>Non-stop</span></div>
+                  </div>
+                  <div><span class="mb-icon-s">✈</span>
+                    <div><b>AI 1198</b><span>Air India</span></div>
+                  </div>
+                  <div><span class="mb-icon-s">🪑</span>
+                    <div><b>22F</b><span>Window</span></div>
+                  </div>
+                </div>
+                <div class="mb-t-footer">
+                  <div><span>⏰ Boarding Time</span><b>08:20 AM</b></div>
+                  <div><span>🏛 Terminal</span><b>T2</b></div>
+                  <div><span>👤 Passenger</span><b>Aman Sharma</b></div>
+                </div>
+              </div>
+              <div class="mb-t-right">
+                <button class="mb-btn orange-btn">🎫 View Ticket</button>
+                <button class="mb-btn">📥 Download</button>
+                <button class="mb-btn outline">💬 More</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-reminder">
+            <div class="mb-rem-icon">🔔</div>
+            <div class="mb-rem-text">
+              <b>Travel stress-free!</b>
+              <p>Arrive at the airport at least 2 hours before departure for domestic flights.</p>
+            </div>
+            <div class="mb-rem-plane">✈</div>
+          </div>
         </div>
-        </div>
-    </div>
 
-    <!-- Dynamic Component Containers -->
-    <div id="footer-container"></div>
+      </div>
+    </section>
+  </main>
 
-    <!-- Component Loader Script -->
-    <script>
-        function openDrawer(tab = 'signin') {
-            window.location.href = '../index.html#' + tab;
+  <!-- Footer -->
+  <div id="footer-container"></div>
+
+  <script>
+    const load = async (url, id) => {
+      try { document.getElementById(id).innerHTML = await (await fetch(url)).text(); }
+      catch (e) { console.error('Error:', e); }
+    };
+    window.addEventListener('DOMContentLoaded', async () => {
+      await load('../globalcomp/navbar.html', 'navbar-container');
+      await load('../globalcomp/footer.html', 'footer-container');
+      
+      const logo = document.querySelector('.navbar-logo');
+      if (logo) logo.href = '../index.html';
+
+      const links = { 
+        '#hero': '../index.html#hero', 
+        '#flights': '../index.html#flights', 
+        'mybookings/bookings.html': '#', 
+        'help/help.html': '../help/help.html' 
+      };
+      
+      Object.entries(links).forEach(([sel, href]) => {
+        const el = document.querySelector(`.nav-link[href="${sel}"]`);
+        if (el) { 
+          el.href = href; 
+          el.classList.toggle('active', href === '#'); 
         }
-
-        async function loadComponent(url, containerId) {
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`Failed to load ${url}`);
-                const html = await response.text();
-                document.getElementById(containerId).innerHTML = html;
-            } catch (error) {
-                console.error('Error loading component:', error);
-            }
-        }
-
-        async function initApp() {
-            // Load global components
-            await loadComponent('../globalcomp/navbar.html', 'navbar-container');
-            await loadComponent('../globalcomp/footer.html', 'footer-container');
-
-            // Adjust navbar links to point back to the main index.html
-            const logo = document.querySelector('.navbar-logo');
-            if (logo) logo.href = '../index.html';
-
-            const homeLink = document.querySelector('.nav-link[href="#hero"]');
-            if (homeLink) homeLink.href = '../index.html#hero';
-
-            const flightsLink = document.querySelector('.nav-link[href="#flights"]');
-            if (flightsLink) flightsLink.href = '../index.html#flights';
-
-            const myBookingsLink = document.querySelector('.nav-link[href="mybookings/bookings.html"]');
-            if (myBookingsLink) myBookingsLink.href = '#';
-
-            const helpLink = document.querySelector('.nav-link[href="help/help.html"]');
-            if (helpLink) helpLink.href = '../help/help.html';
-        }
-
-        window.addEventListener('DOMContentLoaded', initApp);
-    </script>
-    <script src="../../../Javascript/User/auth.js"></script>
+      });
+    });
+  </script>
 </body>
 
 </html>
